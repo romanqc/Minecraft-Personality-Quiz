@@ -8,706 +8,277 @@
   @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&family=Share+Tech+Mono&display=swap');
 
   :root {
-    --dirt:       #8B5E3C;
-    --dirt-light: #A0713E;
-    --stone:      #7F7F7F;
-    --stone-dark: #555555;
-    --grass:      #5A8A32;
-    --grass-bright: #6DB33F;
-    --wood:       #B8882C;
-    --cobble:     #6C6C6C;
-    --sky:        #87CEEB;
-    --night:      #0D1B2A;
-    --sand:       #E2C97E;
-    --gold:       #F5C518;
-    --redstone:   #CC2222;
-    --diamond:    #5ECFCF;
-    --emerald:    #17DD62;
-    --lapis:      #2255BB;
-    --nether:     #7B1A1A;
-    --ender:      #1A0D2E;
-    --cream:      #FAF0DC;
-    --text-main:  #F0E8D0;
-    --text-dim:   #B8A882;
-    --shadow:     rgba(0,0,0,0.6);
-
-    --pixel-border: 4px;
-    --block-radius: 2px;
+    --dirt:#8B5E3C;--dirt-light:#A0713E;--stone:#7F7F7F;--stone-dark:#555555;
+    --grass:#5A8A32;--grass-bright:#6DB33F;--wood:#B8882C;--cobble:#6C6C6C;
+    --night:#0D1B2A;--gold:#F5C518;--redstone:#CC2222;--diamond:#5ECFCF;
+    --emerald:#17DD62;--lapis:#2255BB;--ender:#1A0D2E;
+    --text-main:#F0E8D0;--text-dim:#B8A882;
   }
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-  body {
-    background: var(--night);
-    color: var(--text-main);
-    font-family: 'VT323', monospace;
-    font-size: 20px;
-    line-height: 1.5;
-    min-height: 100vh;
-    overflow-x: hidden;
+  body{
+    background:var(--night);color:var(--text-main);
+    font-family:'VT323',monospace;font-size:20px;line-height:1.5;
+    min-height:100vh;overflow-x:hidden;
   }
 
-  /* ═══════════════════════════════════════════
-     PIXEL STARS BACKGROUND
-  ═══════════════════════════════════════════ */
-  .stars-bg {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
+  .stars-bg{
+    position:fixed;inset:0;pointer-events:none;z-index:0;
     background:
-      radial-gradient(1px 1px at 10% 15%, white, transparent),
-      radial-gradient(1px 1px at 25% 40%, white, transparent),
-      radial-gradient(1px 1px at 45% 8%, white, transparent),
-      radial-gradient(1px 1px at 60% 55%, white, transparent),
-      radial-gradient(1px 1px at 75% 22%, white, transparent),
-      radial-gradient(1px 1px at 85% 70%, white, transparent),
-      radial-gradient(1px 1px at 5% 80%, white, transparent),
-      radial-gradient(1px 1px at 92% 10%, white, transparent),
-      radial-gradient(1px 1px at 38% 88%, white, transparent),
-      radial-gradient(1px 1px at 68% 35%, white, transparent),
-      radial-gradient(2px 2px at 20% 60%, rgba(255,255,200,0.8), transparent),
-      radial-gradient(2px 2px at 55% 75%, rgba(200,220,255,0.8), transparent),
+      radial-gradient(1px 1px at 10% 15%,white,transparent),
+      radial-gradient(1px 1px at 25% 40%,white,transparent),
+      radial-gradient(1px 1px at 45% 8%,white,transparent),
+      radial-gradient(1px 1px at 60% 55%,white,transparent),
+      radial-gradient(1px 1px at 75% 22%,white,transparent),
+      radial-gradient(1px 1px at 85% 70%,white,transparent),
+      radial-gradient(1px 1px at 5% 80%,white,transparent),
+      radial-gradient(1px 1px at 92% 10%,white,transparent),
+      radial-gradient(1px 1px at 38% 88%,white,transparent),
+      radial-gradient(2px 2px at 20% 60%,rgba(255,255,200,.8),transparent),
+      radial-gradient(2px 2px at 55% 75%,rgba(200,220,255,.8),transparent),
       var(--night);
   }
 
-  /* ═══════════════════════════════════════════
-     BLOCK UTILITY
-  ═══════════════════════════════════════════ */
-  .block {
-    image-rendering: pixelated;
-    border: var(--pixel-border) solid;
-    border-color: rgba(255,255,255,0.15) rgba(0,0,0,0.5) rgba(0,0,0,0.5) rgba(255,255,255,0.15);
+  .screen{display:none;position:relative;z-index:1;min-height:100vh;padding:20px;animation:fadeIn .4s ease}
+  .screen.active{display:flex;flex-direction:column;align-items:center;justify-content:center}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+  .pixel-btn{
+    display:inline-block;font-family:'Press Start 2P',monospace;font-size:10px;
+    padding:14px 22px;cursor:pointer;border:none;outline:none;position:relative;
+    text-transform:uppercase;letter-spacing:1px;transition:transform .08s,filter .08s;
+  }
+  .pixel-btn::before{
+    content:'';position:absolute;inset:0;border:4px solid;
+    border-color:rgba(255,255,255,.3) rgba(0,0,0,.4) rgba(0,0,0,.4) rgba(255,255,255,.3);
+  }
+  .pixel-btn:hover{transform:translateY(-2px);filter:brightness(1.15)}
+  .pixel-btn:active{transform:translateY(2px);filter:brightness(.9)}
+  .btn-green{background:var(--grass);color:#fff}
+  .btn-stone{background:var(--stone);color:var(--text-main)}
+  .btn-gold{background:var(--wood);color:#fff}
+  .btn-ender{background:#4B0082;color:var(--diamond)}
+
+  /* LANDING */
+  #landing{background:linear-gradient(to bottom,#0D1B2A,#1A2C45 50%,#2C1810);text-align:center;gap:28px}
+
+  .title-block{
+    background:var(--dirt);padding:22px 36px;max-width:680px;width:100%;
+    border:6px solid;border-color:var(--dirt-light) var(--stone-dark) var(--stone-dark) var(--dirt-light);
+  }
+  .game-title{
+    font-family:'Press Start 2P',monospace;font-size:clamp(13px,2.8vw,21px);
+    line-height:1.9;color:var(--gold);text-shadow:3px 3px 0 #7B5000,6px 6px 0 rgba(0,0,0,.4);
+  }
+  .game-subtitle{font-size:22px;color:var(--text-dim);margin-top:10px;letter-spacing:2px}
+
+  .intro-card{
+    background:rgba(20,30,20,.87);border:4px solid;
+    border-color:var(--grass-bright) var(--stone-dark) var(--stone-dark) var(--grass-bright);
+    padding:22px 30px;max-width:620px;width:100%;font-size:18px;color:var(--text-main);line-height:1.7;
+  }
+  .intro-card p+p{margin-top:10px}
+
+  .mob-parade{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:580px}
+  .mob-icon{
+    background:var(--stone-dark);width:56px;height:56px;display:flex;align-items:center;
+    justify-content:center;border:3px solid var(--cobble);animation:float 3s ease-in-out infinite;
+    overflow:hidden;
+  }
+  .mob-icon:nth-child(2n){animation-delay:.35s}
+  .mob-icon:nth-child(3n){animation-delay:.7s}
+  .mob-icon:nth-child(4n){animation-delay:1.05s}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+  .pixel-divider{
+    width:100%;max-width:680px;height:8px;
+    background:repeating-linear-gradient(to right,var(--grass) 0,var(--grass) 16px,var(--dirt) 16px,var(--dirt) 32px);
   }
 
-  .block-inset {
-    border-color: rgba(0,0,0,0.4) rgba(255,255,255,0.1) rgba(255,255,255,0.1) rgba(0,0,0,0.4);
+  /* QUIZ */
+  #quiz{background:linear-gradient(to bottom,#0D1B2A,#1E2D1E);gap:22px;padding:40px 20px}
+
+  .progress-container{width:100%;max-width:700px}
+  .progress-label{
+    font-family:'Press Start 2P',monospace;font-size:8px;color:var(--text-dim);
+    margin-bottom:7px;display:flex;justify-content:space-between;
+  }
+  .progress-track{height:20px;background:var(--stone-dark);border:3px solid var(--cobble);overflow:hidden}
+  .progress-fill{height:100%;background:var(--grass-bright);transition:width .4s ease;position:relative}
+  .progress-fill::after{content:'';position:absolute;top:0;left:0;right:0;height:40%;background:rgba(255,255,255,.2)}
+
+  .question-card{
+    background:rgba(12,18,12,.94);border:5px solid;
+    border-color:var(--grass-bright) var(--stone-dark) var(--stone-dark) var(--grass-bright);
+    padding:30px;max-width:700px;width:100%;transition:border-color .3s;
+  }
+  .question-number{font-family:'Press Start 2P',monospace;font-size:8px;color:var(--grass-bright);margin-bottom:14px;letter-spacing:2px}
+  .question-text{font-size:clamp(20px,3vw,26px);color:var(--text-main);line-height:1.6;margin-bottom:24px;min-height:72px}
+
+  .options-grid{display:grid;gap:10px}
+  .option-btn{
+    background:rgba(28,42,28,.92);border:3px solid var(--cobble);
+    padding:14px 18px;text-align:left;font-family:'VT323',monospace;font-size:20px;
+    color:var(--text-main);cursor:pointer;transition:all .12s;
+    display:flex;align-items:flex-start;gap:14px;line-height:1.4;
+  }
+  .option-btn:hover{border-color:var(--grass-bright);transform:translateX(4px)}
+  .option-btn.selected{background:rgba(93,138,50,.42);border-color:var(--grass-bright)}
+  .option-key{
+    font-family:'Press Start 2P',monospace;font-size:9px;background:var(--stone-dark);
+    color:var(--gold);padding:5px 7px;flex-shrink:0;margin-top:2px;border:2px solid var(--cobble);
   }
 
-  .pixel-btn {
-    display: inline-block;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
-    padding: 14px 20px;
-    cursor: pointer;
-    border: none;
-    outline: none;
-    position: relative;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: transform 0.08s, filter 0.08s;
-    image-rendering: pixelated;
+  .nav-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:700px;width:100%}
+
+  /* LOADING */
+  #loading{background:var(--night);gap:22px;text-align:center}
+  .loading-canvas-wrap{animation:spin-hop 1s steps(4) infinite}
+  @keyframes spin-hop{
+    0%{transform:translateY(0) rotate(0deg)}
+    25%{transform:translateY(-16px) rotate(90deg)}
+    50%{transform:translateY(0) rotate(180deg)}
+    75%{transform:translateY(-16px) rotate(270deg)}
+    100%{transform:translateY(0) rotate(360deg)}
+  }
+  .loading-text{font-family:'Press Start 2P',monospace;font-size:10px;color:var(--grass-bright);animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .loading-bar-track{width:300px;height:24px;background:var(--stone-dark);border:4px solid var(--cobble);overflow:hidden}
+  .loading-bar-fill{height:100%;background:var(--grass-bright);animation:load-fill 2.2s ease-in-out forwards}
+  @keyframes load-fill{0%{width:0}30%{width:45%}60%{width:70%}85%{width:88%}100%{width:100%}}
+
+  /* RESULTS */
+  #results{
+    background:linear-gradient(135deg,#0D1B2A 0%,#1A0D2E 40%,#0D1B2A 100%);
+    gap:24px;padding:40px 20px;
+  }
+  .result-header{font-family:'Press Start 2P',monospace;font-size:clamp(9px,2vw,13px);color:var(--text-dim);text-align:center;letter-spacing:3px}
+
+  .mob-reveal{
+    background:linear-gradient(135deg,rgba(20,12,40,.95),rgba(10,30,20,.95));
+    border:5px solid;border-color:var(--diamond) var(--lapis) var(--lapis) var(--diamond);
+    padding:32px;max-width:720px;width:100%;text-align:center;position:relative;overflow:hidden;
+  }
+  .mob-reveal::before{
+    content:'';position:absolute;inset:-50%;
+    background:conic-gradient(from 0deg,transparent 0%,rgba(94,207,207,.05) 25%,transparent 50%,rgba(94,207,207,.05) 75%,transparent 100%);
+    animation:spin 12s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .mob-portrait-wrap{
+    position:relative;z-index:1;margin-bottom:16px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .mob-portrait{
+    image-rendering:pixelated;image-rendering:crisp-edges;
+    width:128px;height:128px;
+    filter:drop-shadow(0 0 18px var(--diamond));
+    animation:pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{transform:scale(1);filter:drop-shadow(0 0 18px var(--diamond))}
+    50%{transform:scale(1.07);filter:drop-shadow(0 0 32px var(--diamond))}
   }
 
-  .pixel-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border: 4px solid;
-    border-color: rgba(255,255,255,0.3) rgba(0,0,0,0.4) rgba(0,0,0,0.4) rgba(255,255,255,0.3);
+  .mob-name{font-family:'Press Start 2P',monospace;font-size:clamp(15px,4vw,26px);color:var(--gold);text-shadow:3px 3px 0 #7B5000;position:relative;z-index:1;margin-bottom:7px}
+  .mbti-badge{
+    display:inline-block;font-family:'Press Start 2P',monospace;font-size:13px;
+    background:var(--ender);color:var(--diamond);padding:7px 16px;border:3px solid var(--diamond);
+    position:relative;z-index:1;margin-bottom:18px;letter-spacing:4px;
   }
-
-  .pixel-btn:hover { transform: translateY(-2px); filter: brightness(1.15); }
-  .pixel-btn:active { transform: translateY(2px); filter: brightness(0.9); }
-
-  .btn-green  { background: var(--grass); color: #fff; }
-  .btn-stone  { background: var(--stone); color: var(--text-main); }
-  .btn-gold   { background: var(--wood); color: #fff; }
-  .btn-red    { background: var(--redstone); color: #fff; }
-  .btn-ender  { background: #4B0082; color: var(--diamond); }
-
-  /* ═══════════════════════════════════════════
-     SCREENS
-  ═══════════════════════════════════════════ */
-  .screen {
-    display: none;
-    position: relative;
-    z-index: 1;
-    min-height: 100vh;
-    padding: 20px;
-    animation: fadeIn 0.4s ease;
-  }
-
-  .screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ═══════════════════════════════════════════
-     LANDING SCREEN
-  ═══════════════════════════════════════════ */
-  #landing {
-    background:
-      linear-gradient(to bottom, #0D1B2A 0%, #1A2C45 50%, #2C1810 100%);
-    text-align: center;
-    gap: 32px;
-  }
-
-  .title-block {
-    background: var(--dirt);
-    padding: 24px 40px;
-    max-width: 700px;
-    width: 100%;
-    border: 6px solid;
-    border-color: var(--dirt-light) var(--stone-dark) var(--stone-dark) var(--dirt-light);
-    position: relative;
-  }
-
-  .title-block::after {
-    content: '';
-    position: absolute;
-    inset: 4px;
-    border: 2px solid rgba(0,0,0,0.3);
-    pointer-events: none;
-  }
-
-  .game-title {
-    font-family: 'Press Start 2P', monospace;
-    font-size: clamp(14px, 3vw, 22px);
-    line-height: 1.8;
-    color: var(--gold);
-    text-shadow: 3px 3px 0 #7B5000, 6px 6px 0 rgba(0,0,0,0.4);
-    letter-spacing: 1px;
-  }
-
-  .game-subtitle {
-    font-size: 22px;
-    color: var(--text-dim);
-    margin-top: 12px;
-    letter-spacing: 2px;
-  }
-
-  .intro-card {
-    background: rgba(20, 30, 20, 0.85);
-    border: 4px solid var(--grass);
-    border-color: var(--grass-bright) var(--stone-dark) var(--stone-dark) var(--grass-bright);
-    padding: 24px 32px;
-    max-width: 640px;
-    width: 100%;
-    font-size: 18px;
-    color: var(--text-main);
-    line-height: 1.7;
-  }
-
-  .intro-card p + p { margin-top: 12px; }
-
-  .mob-parade {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 600px;
-  }
-
-  .mob-icon {
-    font-size: 32px;
-    background: var(--stone-dark);
-    width: 52px; height: 52px;
-    display: flex; align-items: center; justify-content: center;
-    border: 3px solid var(--cobble);
-    animation: float 3s ease-in-out infinite;
-  }
-
-  .mob-icon:nth-child(2n)   { animation-delay: 0.4s; }
-  .mob-icon:nth-child(3n)   { animation-delay: 0.8s; }
-  .mob-icon:nth-child(4n)   { animation-delay: 1.2s; }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-8px); }
-  }
-
-  /* ═══════════════════════════════════════════
-     QUIZ SCREEN
-  ═══════════════════════════════════════════ */
-  #quiz {
-    background:
-      linear-gradient(to bottom, #0D1B2A 0%, #1E2D1E 100%);
-    gap: 24px;
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
-
-  .progress-container {
-    width: 100%;
-    max-width: 700px;
-  }
-
-  .progress-label {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
-    color: var(--text-dim);
-    margin-bottom: 8px;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .progress-track {
-    height: 20px;
-    background: var(--stone-dark);
-    border: 3px solid var(--cobble);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .progress-fill {
-    height: 100%;
-    background: var(--grass-bright);
-    transition: width 0.4s ease;
-    position: relative;
-  }
-
-  .progress-fill::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 40%;
-    background: rgba(255,255,255,0.2);
-  }
-
-  .progress-notches {
-    position: absolute;
-    inset: 0;
-    display: flex;
-  }
-
-  .progress-notch {
-    flex: 1;
-    border-right: 1px solid rgba(0,0,0,0.3);
-  }
-
-  .question-card {
-    background: rgba(15, 20, 15, 0.92);
-    border: 5px solid;
-    border-color: var(--grass-bright) var(--stone-dark) var(--stone-dark) var(--grass-bright);
-    padding: 32px;
-    max-width: 700px;
-    width: 100%;
-    position: relative;
-  }
-
-  .question-number {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
-    color: var(--grass-bright);
-    margin-bottom: 16px;
-    letter-spacing: 2px;
-  }
-
-  .question-text {
-    font-size: clamp(20px, 3vw, 26px);
-    color: var(--text-main);
-    line-height: 1.6;
-    margin-bottom: 28px;
-    min-height: 80px;
-  }
-
-  .options-grid {
-    display: grid;
-    gap: 12px;
-  }
-
-  .option-btn {
-    background: rgba(30, 45, 30, 0.9);
-    border: 3px solid var(--cobble);
-    padding: 16px 20px;
-    text-align: left;
-    font-family: 'VT323', monospace;
-    font-size: 20px;
-    color: var(--text-main);
-    cursor: pointer;
-    transition: all 0.12s;
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    line-height: 1.4;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .option-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--grass-bright);
-    opacity: 0;
-    transition: opacity 0.12s;
-  }
-
-  .option-btn:hover {
-    border-color: var(--grass-bright);
-    transform: translateX(4px);
-  }
-
-  .option-btn:hover::before { opacity: 0.08; }
-
-  .option-btn.selected {
-    background: rgba(93, 138, 50, 0.4);
-    border-color: var(--grass-bright);
-  }
-
-  .option-key {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 9px;
-    background: var(--stone-dark);
-    color: var(--gold);
-    padding: 5px 8px;
-    flex-shrink: 0;
-    margin-top: 2px;
-    border: 2px solid var(--cobble);
-  }
-
-  .option-text { flex: 1; position: relative; z-index: 1; }
-
-  .nav-row {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 700px;
-    width: 100%;
-  }
-
-  /* ═══════════════════════════════════════════
-     RESULTS SCREEN
-  ═══════════════════════════════════════════ */
-  #results {
-    background:
-      linear-gradient(135deg, #0D1B2A 0%, #1A0D2E 40%, #0D1B2A 100%);
-    gap: 28px;
-    padding: 40px 20px;
-  }
-
-  .result-header {
-    font-family: 'Press Start 2P', monospace;
-    font-size: clamp(10px, 2vw, 14px);
-    color: var(--text-dim);
-    text-align: center;
-    letter-spacing: 3px;
-  }
-
-  .mob-reveal {
-    background: linear-gradient(135deg, rgba(20,12,40,0.95), rgba(10,30,20,0.95));
-    border: 5px solid;
-    border-color: var(--diamond) var(--lapis) var(--lapis) var(--diamond);
-    padding: 36px;
-    max-width: 720px;
-    width: 100%;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .mob-reveal::before {
-    content: '';
-    position: absolute;
-    inset: -50%;
-    background: conic-gradient(from 0deg, transparent 0%, rgba(94, 207, 207, 0.05) 25%, transparent 50%, rgba(94, 207, 207, 0.05) 75%, transparent 100%);
-    animation: spin 12s linear infinite;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .mob-emoji-display {
-    font-size: 80px;
-    display: block;
-    margin-bottom: 16px;
-    position: relative;
-    z-index: 1;
-    animation: pulse 2s ease-in-out infinite;
-    filter: drop-shadow(0 0 20px var(--diamond));
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px var(--diamond)); }
-    50%       { transform: scale(1.08); filter: drop-shadow(0 0 35px var(--diamond)); }
-  }
-
-  .mob-name {
-    font-family: 'Press Start 2P', monospace;
-    font-size: clamp(16px, 4vw, 28px);
-    color: var(--gold);
-    text-shadow: 3px 3px 0 #7B5000;
-    position: relative;
-    z-index: 1;
-    margin-bottom: 8px;
-  }
-
-  .mbti-badge {
-    display: inline-block;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 13px;
-    background: var(--ender);
-    color: var(--diamond);
-    padding: 8px 18px;
-    border: 3px solid var(--diamond);
-    position: relative;
-    z-index: 1;
-    margin-bottom: 20px;
-    letter-spacing: 4px;
-  }
-
-  .mob-tagline {
-    font-size: 22px;
-    color: var(--emerald);
-    font-style: italic;
-    position: relative;
-    z-index: 1;
-    margin-bottom: 8px;
-  }
-
-  .result-panels {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 16px;
-    max-width: 720px;
-    width: 100%;
-  }
-
-  .result-panel {
-    background: rgba(10, 20, 10, 0.9);
-    border: 3px solid;
-    padding: 20px 24px;
-  }
-
-  .result-panel.cognitive  { border-color: var(--diamond); }
-  .result-panel.behavioral { border-color: var(--emerald); }
-  .result-panel.archetype  { border-color: var(--gold); }
-
-  .panel-title {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
-    letter-spacing: 2px;
-    margin-bottom: 14px;
-  }
-
-  .result-panel.cognitive  .panel-title { color: var(--diamond); }
-  .result-panel.behavioral .panel-title { color: var(--emerald); }
-  .result-panel.archetype  .panel-title { color: var(--gold); }
-
-  .panel-body {
-    font-size: 18px;
-    color: var(--text-main);
-    line-height: 1.7;
-  }
-
-  .func-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-
-  .func-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 14px;
-    color: var(--diamond);
-    width: 38px;
-    flex-shrink: 0;
-  }
-
-  .func-bar-track {
-    flex: 1;
-    height: 14px;
-    background: var(--stone-dark);
-    border: 2px solid var(--cobble);
-    overflow: hidden;
-  }
-
-  .func-bar-fill {
-    height: 100%;
-    background: linear-gradient(to right, var(--lapis), var(--diamond));
-    transition: width 1s ease 0.3s;
-  }
-
-  .func-score {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 13px;
-    color: var(--text-dim);
-    width: 28px;
-    text-align: right;
-    flex-shrink: 0;
-  }
-
-  .result-actions {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  /* ═══════════════════════════════════════════
-     LOADING SCREEN
-  ═══════════════════════════════════════════ */
-  #loading {
-    background: var(--night);
-    gap: 24px;
-    text-align: center;
-  }
-
-  .loading-mob {
-    font-size: 64px;
-    animation: spin-hop 1s steps(4) infinite;
-  }
-
-  @keyframes spin-hop {
-    0%   { transform: translateY(0)    rotate(0deg); }
-    25%  { transform: translateY(-16px) rotate(90deg); }
-    50%  { transform: translateY(0)    rotate(180deg); }
-    75%  { transform: translateY(-16px) rotate(270deg); }
-    100% { transform: translateY(0)    rotate(360deg); }
-  }
-
-  .loading-text {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
-    color: var(--grass-bright);
-    animation: blink 1s steps(1) infinite;
-  }
-
-  @keyframes blink { 50% { opacity: 0; } }
-
-  .loading-bar-track {
-    width: 300px;
-    height: 24px;
-    background: var(--stone-dark);
-    border: 4px solid var(--cobble);
-    overflow: hidden;
-  }
-
-  .loading-bar-fill {
-    height: 100%;
-    background: var(--grass-bright);
-    animation: load-fill 2.2s ease-in-out forwards;
-  }
-
-  @keyframes load-fill {
-    0%   { width: 0%; }
-    30%  { width: 45%; }
-    60%  { width: 70%; }
-    85%  { width: 88%; }
-    100% { width: 100%; }
-  }
-
-  /* ═══════════════════════════════════════════
-     DECORATIVE PIXEL BORDER
-  ═══════════════════════════════════════════ */
-  .pixel-divider {
-    width: 100%;
-    max-width: 700px;
-    height: 8px;
-    background: repeating-linear-gradient(
-      to right,
-      var(--grass) 0px, var(--grass) 16px,
-      var(--dirt) 16px, var(--dirt) 32px
-    );
-  }
-
-  /* ═══════════════════════════════════════════
-     TOOLTIPS / FUNCTION TAGS
-  ═══════════════════════════════════════════ */
-  .function-tag {
-    display: inline-block;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    padding: 2px 7px;
-    border: 1px solid;
-    margin: 2px;
-    opacity: 0.7;
-  }
-
-  /* ═══════════════════════════════════════════
-     RESPONSIVE
-  ═══════════════════════════════════════════ */
-  @media (max-width: 480px) {
-    .title-block { padding: 16px 20px; }
-    .game-title  { font-size: 12px; }
-    .question-card { padding: 20px 16px; }
-    .mob-reveal  { padding: 24px 16px; }
+  .mob-tagline{font-size:22px;color:var(--emerald);font-style:italic;position:relative;z-index:1;margin-bottom:4px}
+
+  .result-panels{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;max-width:720px;width:100%}
+  .result-panel{background:rgba(8,18,8,.92);border:3px solid;padding:18px 22px}
+  .result-panel.cognitive{border-color:var(--diamond)}
+  .result-panel.behavioral{border-color:var(--emerald)}
+  .result-panel.archetype{border-color:var(--gold);grid-column:1/-1}
+
+  .panel-title{font-family:'Press Start 2P',monospace;font-size:8px;letter-spacing:2px;margin-bottom:12px}
+  .result-panel.cognitive .panel-title{color:var(--diamond)}
+  .result-panel.behavioral .panel-title{color:var(--emerald)}
+  .result-panel.archetype .panel-title{color:var(--gold)}
+  .panel-body{font-size:18px;color:var(--text-main);line-height:1.7}
+
+  .func-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .func-label{font-family:'Share Tech Mono',monospace;font-size:14px;color:var(--diamond);width:36px;flex-shrink:0}
+  .func-bar-track{flex:1;height:13px;background:var(--stone-dark);border:2px solid var(--cobble);overflow:hidden}
+  .func-bar-fill{height:100%;background:linear-gradient(to right,var(--lapis),var(--diamond));transition:width 1s ease .3s}
+  .func-score{font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--text-dim);width:26px;text-align:right;flex-shrink:0}
+
+  .result-actions{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+
+  @media(max-width:480px){
+    .title-block{padding:14px 16px}
+    .game-title{font-size:11px}
+    .question-card{padding:18px 14px}
+    .mob-reveal{padding:20px 14px}
+    .mob-portrait{width:96px;height:96px}
   }
 </style>
 </head>
 <body>
-
 <div class="stars-bg"></div>
 
-<!-- ═══════ LANDING ═══════ -->
+<!-- LANDING -->
 <div id="landing" class="screen active">
-  <div class="mob-parade">
-    <div class="mob-icon">🐉</div>
-    <div class="mob-icon">👁️</div>
-    <div class="mob-icon">🐺</div>
-    <div class="mob-icon">💚</div>
-    <div class="mob-icon">🧙</div>
-    <div class="mob-icon">🦜</div>
-    <div class="mob-icon">🕷️</div>
-    <div class="mob-icon">🐴</div>
-  </div>
-
-  <div class="title-block block">
+  <div class="mob-parade" id="parade"></div>
+  <div class="title-block">
     <div class="game-title">WHAT MINECRAFT MOB<br>ARE YOU?</div>
     <div class="game-subtitle">A Cognitive Archetype Quiz</div>
   </div>
-
   <div class="intro-card">
     <p>This is not a shallow personality quiz.</p>
     <p>Every answer maps to a <strong>cognitive function</strong> — Ti, Te, Fi, Fe, Ni, Ne, Si, or Se — the building blocks of personality psychology.</p>
-    <p>Your responses will determine your MBTI cognitive function profile, which maps to one of 16 Minecraft mobs chosen for their behavioral archetype — not their aesthetics.</p>
-    <p style="color: var(--text-dim);">28 questions · ~5 minutes · No account needed</p>
+    <p>Your responses determine your MBTI cognitive profile, matched to one of 16 Minecraft mobs chosen for their behavioral archetype — not their aesthetics.</p>
+    <p style="color:var(--text-dim)">28 questions · ~5 minutes · No account needed</p>
   </div>
-
   <div class="pixel-divider"></div>
-
   <button class="pixel-btn btn-green" onclick="startQuiz()">▶ BEGIN ANALYSIS</button>
 </div>
 
-<!-- ═══════ QUIZ ═══════ -->
+<!-- QUIZ -->
 <div id="quiz" class="screen">
   <div class="progress-container">
     <div class="progress-label">
       <span id="progress-text">Question 1 of 28</span>
       <span id="progress-pct">0%</span>
     </div>
-    <div class="progress-track block-inset">
+    <div class="progress-track">
       <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-      <div class="progress-notches" id="progress-notches"></div>
     </div>
   </div>
-
-  <div class="question-card block">
+  <div class="question-card" id="question-card">
     <div class="question-number" id="q-number">QUESTION 01</div>
     <div class="question-text" id="q-text"></div>
     <div class="options-grid" id="q-options"></div>
   </div>
-
   <div class="nav-row">
     <button class="pixel-btn btn-stone" id="btn-prev" onclick="prevQuestion()" style="display:none">◀ BACK</button>
     <button class="pixel-btn btn-green" id="btn-next" onclick="nextQuestion()">NEXT ▶</button>
   </div>
 </div>
 
-<!-- ═══════ LOADING ═══════ -->
+<!-- LOADING -->
 <div id="loading" class="screen">
-  <div class="loading-mob">🧬</div>
+  <div class="loading-canvas-wrap"><canvas id="loading-canvas" style="image-rendering:pixelated;width:64px;height:64px" width="64" height="64"></canvas></div>
   <div class="loading-text">ANALYZING YOUR COGNITIVE PROFILE...</div>
-  <div class="loading-bar-track block-inset">
-    <div class="loading-bar-fill"></div>
-  </div>
+  <div class="loading-bar-track"><div class="loading-bar-fill"></div></div>
 </div>
 
-<!-- ═══════ RESULTS ═══════ -->
+<!-- RESULTS -->
 <div id="results" class="screen">
-  <div class="result-header" id="result-header">YOUR COGNITIVE ARCHETYPE</div>
-
-  <div class="mob-reveal block">
-    <span class="mob-emoji-display" id="result-emoji">🐉</span>
-    <div class="mob-name" id="result-mob-name">ENDER DRAGON</div>
-    <div class="mbti-badge" id="result-mbti">ENTJ</div>
-    <div class="mob-tagline" id="result-tagline">"The Apex Visionary"</div>
+  <div class="result-header">YOUR COGNITIVE ARCHETYPE</div>
+  <div class="mob-reveal">
+    <div class="mob-portrait-wrap">
+      <canvas class="mob-portrait" id="result-canvas" width="128" height="128"></canvas>
+    </div>
+    <div class="mob-name" id="result-mob-name"></div>
+    <div class="mbti-badge" id="result-mbti"></div>
+    <div class="mob-tagline" id="result-tagline"></div>
   </div>
-
   <div class="result-panels">
     <div class="result-panel cognitive">
       <div class="panel-title">⚙ COGNITIVE FUNCTION SCORES</div>
@@ -717,691 +288,658 @@
       <div class="panel-title">⚔ BEHAVIORAL ARCHETYPE</div>
       <div class="panel-body" id="result-behavioral"></div>
     </div>
-    <div class="result-panel archetype" style="grid-column: 1 / -1;">
+    <div class="result-panel archetype">
       <div class="panel-title">📖 DEEP ANALYSIS</div>
       <div class="panel-body" id="result-explanation"></div>
     </div>
   </div>
-
   <div class="pixel-divider"></div>
-
   <div class="result-actions">
     <button class="pixel-btn btn-ender" onclick="retakeQuiz()">↺ RETAKE QUIZ</button>
-    <button class="pixel-btn btn-gold" onclick="saveResult()">💾 SAVE RESULT</button>
+    <button class="pixel-btn btn-gold" onclick="saveResult()">💾 COPY RESULT</button>
   </div>
-
-  <div style="font-size:14px; color:var(--text-dim); margin-top:8px;" id="save-status"></div>
+  <div style="font-size:14px;color:var(--text-dim);margin-top:8px" id="save-status"></div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════════════
-//  DATA: QUESTIONS
-//  Each choice awards +2 to one cognitive function.
-//  Functions: Ti, Te, Fi, Fe, Ni, Ne, Si, Se
-// ═══════════════════════════════════════════════════════════════════════
-const QUESTIONS = [
-  {
-    text: "You need to make an important decision quickly. You tend to:",
-    options: [
-      { text: "Run through the internal logic until it holds together perfectly, even if it takes a moment.", fn: "Ti" },
-      { text: "Weigh the outcomes and pick the option most likely to achieve the objective.", fn: "Te" },
-      { text: "Check whether the choice aligns with what you genuinely believe is right.", fn: "Fi" },
-      { text: "Read the room — what does this mean for the people involved?", fn: "Fe" }
-    ]
-  },
-  {
-    text: "After a week of intense social activity, you feel:",
-    options: [
-      { text: "Depleted — you need significant alone time to recharge and process.", fn: "Ti" },
-      { text: "Wired but hollow — you performed well, but something wasn't quite engaged.", fn: "Ni" },
-      { text: "Fine, maybe tired — social energy is interesting fuel, not a drain.", fn: "Ne" },
-      { text: "Energized and connected — you thrive in that kind of environment.", fn: "Fe" }
-    ]
-  },
-  {
-    text: "You're exploring an unfamiliar city alone. What captures your attention most?",
-    options: [
-      { text: "The unexpected details — a strange texture on a wall, an alley you haven't seen.", fn: "Se" },
-      { text: "How the layout connects — you're building a mental map of the underlying logic.", fn: "Ni" },
-      { text: "What's possible here — you're imagining all the different directions you could go.", fn: "Ne" },
-      { text: "How it compares to other places you've been — familiar touchstones vs. differences.", fn: "Si" }
-    ]
-  },
-  {
-    text: "A friend presents you with a theory they're excited about. It has some logical holes. You:",
-    options: [
-      { text: "Point out the inconsistencies precisely — you can't let a flawed argument stand.", fn: "Ti" },
-      { text: "Redirect them toward a more workable version that actually produces results.", fn: "Te" },
-      { text: "Notice but hold back — you don't want to crush their enthusiasm if it matters to them.", fn: "Fi" },
-      { text: "Engage warmly with the spirit of what they're saying, gently raising questions.", fn: "Fe" }
-    ]
-  },
-  {
-    text: "When you're working on a long project, you prefer to:",
-    options: [
-      { text: "Develop the core framework first — the structure has to be internally coherent.", fn: "Ti" },
-      { text: "Set milestones and work toward measurable deliverables at each stage.", fn: "Te" },
-      { text: "Follow the thread that feels meaningful, even if the path isn't linear.", fn: "Fi" },
-      { text: "Check in with collaborators regularly to make sure everyone is aligned.", fn: "Fe" }
-    ]
-  },
-  {
-    text: "How do you typically relate to the future?",
-    options: [
-      { text: "You have a strong, specific sense of where things are heading — almost a felt certainty.", fn: "Ni" },
-      { text: "You see many branching possibilities and find that energizing rather than paralyzing.", fn: "Ne" },
-      { text: "You prefer to stay grounded in what's real and present — speculation feels abstract.", fn: "Se" },
-      { text: "The future is best understood by carefully applying what's been learned before.", fn: "Si" }
-    ]
-  },
-  {
-    text: "When someone is in emotional distress, you instinctively:",
-    options: [
-      { text: "Try to understand their internal experience from the inside — you feel with them.", fn: "Fi" },
-      { text: "Read what they need right now and respond to that, even if it's wordless.", fn: "Fe" },
-      { text: "Help them think through what's actually happening and what can be done.", fn: "Te" },
-      { text: "Offer perspective — if you can see the pattern, you can help them see the way out.", fn: "Ni" }
-    ]
-  },
-  {
-    text: "You're in an argument. Your instinct is to:",
-    options: [
-      { text: "Identify exactly where the logic breaks down — find the precise point of error.", fn: "Ti" },
-      { text: "Cut to what the argument is actually about and what would resolve it effectively.", fn: "Te" },
-      { text: "Stand firm on what you believe is right, even if the social pressure is intense.", fn: "Fi" },
-      { text: "Look for common ground — the relationship matters as much as being right.", fn: "Fe" }
-    ]
-  },
-  {
-    text: "Which best describes your relationship with routine?",
-    options: [
-      { text: "You build systems — but your own, idiosyncratic ones, optimized internally.", fn: "Ti" },
-      { text: "Routine is a productivity tool — you use it when it works and abandon it when it doesn't.", fn: "Te" },
-      { text: "You value consistency and find comfort in the familiar patterns of your life.", fn: "Si" },
-      { text: "Routine is something you resist — novelty and spontaneity are more alive.", fn: "Se" }
-    ]
-  },
-  {
-    text: "You come across a complex phenomenon you've never encountered. Your first move is to:",
-    options: [
-      { text: "Break it into components and work out how they relate — build a model.", fn: "Ti" },
-      { text: "Research precedents and find what approaches have worked on similar problems.", fn: "Si" },
-      { text: "Generate multiple hypotheses rapidly — this could go in so many directions.", fn: "Ne" },
-      { text: "Trust the intuition forming at the edge of your awareness — something's clicking.", fn: "Ni" }
-    ]
-  },
-  {
-    text: "When you travel or encounter something new, what you most remember afterward is:",
-    options: [
-      { text: "Specific sensory moments — textures, smells, tastes, sounds that were vivid.", fn: "Se" },
-      { text: "How it confirmed, challenged, or updated something you already knew.", fn: "Si" },
-      { text: "The underlying insight it gave you — a new way of understanding something broader.", fn: "Ni" },
-      { text: "All the things it made you want to explore next — it opened doors.", fn: "Ne" }
-    ]
-  },
-  {
-    text: "Which of these scenarios would you find most satisfying?",
-    options: [
-      { text: "Solving an elegant theoretical problem no one else has cracked.", fn: "Ti" },
-      { text: "Building something that measurably improves how a system works.", fn: "Te" },
-      { text: "Creating something deeply personal that expresses what you actually believe.", fn: "Fi" },
-      { text: "Helping a community navigate a difficult transition together.", fn: "Fe" }
-    ]
-  },
-  {
-    text: "You're most likely to lose track of time when:",
-    options: [
-      { text: "Deep in a theoretical or logical puzzle — hours vanish in the analysis.", fn: "Ti" },
-      { text: "Physically engaged — moving, creating with your hands, experiencing the world.", fn: "Se" },
-      { text: "In rich conversation where ideas are building off each other rapidly.", fn: "Ne" },
-      { text: "Absorbed in a long, detailed task you've done many times but still find grounding.", fn: "Si" }
-    ]
-  },
-  {
-    text: "Your closest relationships tend to be:",
-    options: [
-      { text: "A few deep, carefully chosen bonds — you're selective but intensely loyal.", fn: "Fi" },
-      { text: "Warm and numerous — you genuinely like people and connection comes naturally.", fn: "Fe" },
-      { text: "Defined by intellectual respect — you bond over shared ideas and sharp minds.", fn: "Ti" },
-      { text: "Built slowly through shared experience and demonstrated reliability.", fn: "Si" }
-    ]
-  },
-  {
-    text: "When a crisis hits, people around you would probably describe you as:",
-    options: [
-      { text: "The one who immediately identifies what needs to happen and starts making it happen.", fn: "Te" },
-      { text: "The one who stays eerily calm and has already seen how this plays out.", fn: "Ni" },
-      { text: "The one who acts physically and decisively in the moment — instinctive response.", fn: "Se" },
-      { text: "The one who holds everyone together emotionally while the storm passes.", fn: "Fe" }
-    ]
-  },
-  {
-    text: "What's your honest relationship with rules and authority?",
-    options: [
-      { text: "Rules need to justify themselves logically — if they can't, they don't bind you.", fn: "Ti" },
-      { text: "Rules are tools — you follow effective ones and advocate changing ineffective ones.", fn: "Te" },
-      { text: "Rules that conflict with deep personal values don't really bind you internally.", fn: "Fi" },
-      { text: "Rules are social agreements — following them maintains the fabric of the community.", fn: "Si" }
-    ]
-  },
-  {
-    text: "Which inner experience feels most familiar to you?",
-    options: [
-      { text: "A persistent sense that things are pointing toward something — a pattern assembling.", fn: "Ni" },
-      { text: "A constant stream of connections — things are always reminding you of other things.", fn: "Ne" },
-      { text: "An acute awareness of what's happening right now, in this room, in this moment.", fn: "Se" },
-      { text: "A rich library of detailed memories that you frequently return to.", fn: "Si" }
-    ]
-  },
-  {
-    text: "When you express disagreement, you tend to:",
-    options: [
-      { text: "Lay out exactly why the position is internally inconsistent.", fn: "Ti" },
-      { text: "Point to concrete results or evidence that contradict the claim.", fn: "Te" },
-      { text: "Express it as a matter of personal conviction — 'I just don't believe that's right.'", fn: "Fi" },
-      { text: "Frame it carefully so the relationship doesn't fracture over the disagreement.", fn: "Fe" }
-    ]
-  },
-  {
-    text: "When starting a creative project, you:",
-    options: [
-      { text: "Begin with a precise structure or framework — the logic has to work first.", fn: "Ti" },
-      { text: "Start with the end in mind and work backward — you know what you're building.", fn: "Ni" },
-      { text: "Explore freely and follow whatever direction feels generative — the form emerges.", fn: "Ne" },
-      { text: "Draw from techniques and experiences that have worked before.", fn: "Si" }
-    ]
-  },
-  {
-    text: "How do you usually know when a decision is right?",
-    options: [
-      { text: "It holds together logically — no internal contradiction, no gap in the reasoning.", fn: "Ti" },
-      { text: "It produces results — you test it and it works.", fn: "Te" },
-      { text: "It resonates — it feels congruent with something deep in you.", fn: "Fi" },
-      { text: "You just know — a convergent certainty that defies full articulation.", fn: "Ni" }
-    ]
-  },
-  {
-    text: "Among a group of friends planning something together, you're most likely to be:",
-    options: [
-      { text: "The one quietly analyzing whether the plan will actually work.", fn: "Ti" },
-      { text: "The one pushing to set concrete goals and assign roles.", fn: "Te" },
-      { text: "The one introducing possibilities no one had considered.", fn: "Ne" },
-      { text: "The one making sure everyone feels heard before you move forward.", fn: "Fe" }
-    ]
-  },
-  {
-    text: "When you face uncertainty, your most natural instinct is to:",
-    options: [
-      { text: "Think it through until the uncertainty collapses into clarity.", fn: "Ti" },
-      { text: "Act — doing something produces data, which reduces uncertainty faster than thinking.", fn: "Se" },
-      { text: "Sit with it — the answer often surfaces if you give your mind space.", fn: "Ni" },
-      { text: "Recall how you or others have navigated similar uncertainty before.", fn: "Si" }
-    ]
-  },
-  {
-    text: "What does 'being true to yourself' mean to you?",
-    options: [
-      { text: "Living by the values and ethical commitments that are genuinely yours, regardless of opinion.", fn: "Fi" },
-      { text: "Acting consistently with your principles, especially under pressure.", fn: "Ti" },
-      { text: "Staying connected to the people and communities that matter most to you.", fn: "Fe" },
-      { text: "Honoring who you have been — your history and experience define you.", fn: "Si" }
-    ]
-  },
-  {
-    text: "What kind of intelligence do you most admire in others?",
-    options: [
-      { text: "Analytical depth — someone who can dissect any problem with surgical precision.", fn: "Ti" },
-      { text: "Strategic intelligence — getting the right things done in the right order.", fn: "Te" },
-      { text: "Visionary intelligence — seeing what others can't yet see.", fn: "Ni" },
-      { text: "Connective intelligence — linking ideas across wildly different domains.", fn: "Ne" }
-    ]
-  },
-  {
-    text: "Which statement most resonates with you?",
-    options: [
-      { text: "'I want to understand exactly how this works, not just that it works.'", fn: "Ti" },
-      { text: "'I want to build something that actually makes a difference.'", fn: "Te" },
-      { text: "'I want what I create to be genuinely mine — to mean something.'", fn: "Fi" },
-      { text: "'I want to connect with people in a way that actually matters to them.'", fn: "Fe" }
-    ]
-  },
-  {
-    text: "Your approach to physical or outdoor environments is:",
-    options: [
-      { text: "Immediate and sensory — you dive in, explore, and respond to what's there.", fn: "Se" },
-      { text: "Planned — you prepare, understand the terrain, and execute methodically.", fn: "Te" },
-      { text: "Nostalgic and specific — certain places carry deep memory and meaning.", fn: "Si" },
-      { text: "Abstractly curious — you're more interested in what the place represents.", fn: "Ni" }
-    ]
-  },
-  {
-    text: "When you read fiction, you tend to care most about:",
-    options: [
-      { text: "The internal consistency of the world — plot holes genuinely bother you.", fn: "Ti" },
-      { text: "Whether the characters feel psychologically authentic and complex.", fn: "Fi" },
-      { text: "The atmosphere and sensory texture — how vividly you can inhabit the world.", fn: "Se" },
-      { text: "The thematic depth — what it says about human experience at a larger scale.", fn: "Ni" }
-    ]
-  },
-  {
-    text: "Reflecting on how you've changed over time, you mostly notice:",
-    options: [
-      { text: "Your understanding has deepened — your models are more refined and accurate.", fn: "Ti" },
-      { text: "Your vision has clarified — you know more precisely who and what you're becoming.", fn: "Ni" },
-      { text: "Your values have crystallized — you know what matters and what doesn't.", fn: "Fi" },
-      { text: "Your relationship to tradition and continuity has become more important.", fn: "Si" }
-    ]
-  }
-];
+// ═══════════════════════════════════════════════════════════
+//  PIXEL ART ENGINE
+//  16×16 maps. Each char = one pixel. '#' = transparent.
+//  Palette defined per mob. Scale × 8 = 128px portrait.
+// ═══════════════════════════════════════════════════════════
 
-// ═══════════════════════════════════════════════════════════════════════
-//  DATA: MBTI TYPES (indexed by function profile)
-// ═══════════════════════════════════════════════════════════════════════
-const MOB_DATA = {
-  INTJ: {
-    mob: "Enderman",
-    emoji: "👁️",
-    tagline: "The Sovereign Self",
-    behavioral: "Reactive aggression · Absolute solitary · Moderate predictability · High adaptive intelligence · Extreme environmental sensitivity",
-    explanation: "You are the Enderman — not because you're 'mysterious,' but because of the precise behavioral profile your cognitive functions produce. Your dominant Ni means you're driven by a singular, convergent internal vision that most people can't access or understand. Your auxiliary Te means you pursue that vision through calculated, efficient action. You don't initiate conflict — you have no need to — but when someone violates your boundaries (makes direct eye contact with the Enderman, challenges your worldview), the response is immediate and total. Like the Enderman teleporting to avoid rain, you actively remove yourself from environments that destabilize your internal coherence. You are self-determined, architecturally private, and operating at a frequency most people can't quite tune into.",
-    functions: { Ni: 8, Te: 7, Fi: 4, Se: 2 }
+const MOB_ART = {
+
+  // ── ENDERMAN ── INTJ
+  INTJ:{
+    p:{A:'#0a0a12',B:'#1a0a2e',C:'#7b2fff',D:'#dd88ff',E:'#000000'},
+    m:[
+      '####BBBBBBB#####',
+      '###BBBBBBBBB####',
+      '###BDDBBDDBB####',
+      '###BDDBBDDBB####',
+      '###BBBBBBBBB####',
+      '####ABBBBBAA####',
+      '####ABBBBBAA####',
+      '#####BBBBB######',
+      '##BBBB####BBBB##',
+      '##BBBB####BBBB##',
+      '##BBBB####BBBB##',
+      '##BBBB####BBBB##',
+      '###BBBBB##BBBB##',
+      '####BBBBBBBBB###',
+      '#####BBB##BBB###',
+      '#####BBB##BBB###',
+    ]
   },
-  INTP: {
-    mob: "Witch",
-    emoji: "🧙",
-    tagline: "The Calculating Hermit",
-    behavioral: "High aggression when engaged · Extreme solitary · Moderate predictability · Very high intelligence · High environmental sensitivity",
-    explanation: "You are the Witch — a master of an internal logical system so elaborate and self-consistent that you've built an entire world from it. Your dominant Ti means you've constructed your own framework for understanding reality, and it is precise, idiosyncratic, and privately held. Your auxiliary Ne gives you an enormous repertoire: you can approach any problem from multiple angles, reaching for the right solution from a well-stocked internal library. The Witch doesn't attack emotionally — it calculates, selects, and executes methodically. It lives alone not from loneliness but from preference. And in one telling edge case, it throws Weakness potions at itself when confused — a very Ti move: applying the system even when the target is self.",
-    functions: { Ti: 8, Ne: 7, Si: 4, Fe: 2 }
+
+  // ── WITCH ── INTP
+  INTP:{
+    p:{A:'#3b2060',B:'#1a0a00',C:'#4a7a00',D:'#e8b840',E:'#8b4010',F:'#cc3333',G:'#888888'},
+    m:[
+      '####AAAAAAAA####',
+      '###AAAAAAAAAA###',
+      '###AGAAAAAAGA###',
+      '###AAAAAAAAAA###',
+      '###ADDDDDDDAA###',
+      '####DDDDDDD#####',
+      '#####DDDDD######',
+      '#####AAAAA######',
+      '####AAAAAAAA####',
+      '####AFAAAAFA####',
+      '####AFAAAAFA####',
+      '####AAAAAAAA####',
+      '####AAGGGAAA####',
+      '####AAAAAAAA####',
+      '#####AAAAAA#####',
+      '######AAAA######',
+    ]
   },
-  ENTJ: {
-    mob: "Ender Dragon",
-    emoji: "🐉",
-    tagline: "The Apex Visionary",
-    behavioral: "Total aggression when challenged · Absolute solitary · Moderate predictability · High intelligence · High environmental sensitivity",
-    explanation: "You are the Ender Dragon — not a villain, but an apex archetype. Your dominant Te means you have claimed your domain and you run it. The Dragon patrols with purpose, returns to its pillar with precision, and engages threats with sweeping, overwhelming force. Your auxiliary Ni gives you the long-horizon vision: the Dragon doesn't react randomly — it has a pattern, a home base, a sense of its own territorial sovereignty. Te + Ni is the pairing most associated with strategic total control. The Dragon doesn't pursue you maliciously; it simply will not tolerate its sovereignty being challenged. This isn't cruelty. This is what it looks like when someone fully occupies their own power.",
-    functions: { Te: 8, Ni: 7, Se: 5, Fi: 1 }
+
+  // ── ENDER DRAGON ── ENTJ
+  ENTJ:{
+    p:{A:'#1a0d2e',B:'#4b0082',C:'#cc44ff',D:'#333333',E:'#7700aa',F:'#ff66ff'},
+    m:[
+      '####AAAAAAAAAAAA',
+      '###AAABBBAAAABBB',
+      '###AABCBAAAABCBA',
+      '###AAAAAAAAAAAA#',
+      'AABBBBAAAAABBBBA',
+      'AABBBBAAAAABBBBA',
+      '#AABBBBAAABBBBA#',
+      '##AABBBBABBBBA##',
+      '##AAAAAAAAAAAA##',
+      '###AAADDDAAAA###',
+      '##AAAADDDAAAA###',
+      '#AAAAADDDAAAAA##',
+      'AAAAAADDDAAAAAA#',
+      '#AAAAAAAAAAAAAA#',
+      '##AAAAAAAAAAAA##',
+      '###AAAAAAAAAA###',
+    ]
   },
-  ENTP: {
-    mob: "Blaze",
-    emoji: "🔥",
-    tagline: "The Burning Disciplinarian",
-    behavioral: "High aggression in bursts · Moderate social · High predictability of method · High intelligence · High environmental sensitivity",
-    explanation: "You are the Blaze — aerial, volatile, and operating in an environment most creatures can't survive. Your dominant Ne means you attack in rapid, expansive bursts: three fireballs, then recalibrate, then three more. You generate options and execute them in succession, always testing. Your auxiliary Ti is the recalibration: after the burst, you assess, adjust, and prepare the next volley. The Blaze floats untethered — ENTPs inhabit abstract conceptual space the way the Blaze inhabits the Nether. And the Blaze's fatal weakness to snowballs — something cold, grounded, *Si-coded* — maps perfectly to the ENTP's inferior Si: you are genuinely undone by your neglect of routine, groundedness, and accumulated wisdom.",
-    functions: { Ne: 8, Ti: 7, Fe: 4, Si: 1 }
+
+  // ── BLAZE ── ENTP
+  ENTP:{
+    p:{A:'#ff8800',B:'#ffee00',C:'#ff4400',D:'#ffcc00',E:'#884400',F:'#ffffff'},
+    m:[
+      '####BBBBBBB#####',
+      '###BBBBBBBBB####',
+      '###BFAAAFBBB####',
+      '###BAAAAAABB####',
+      '###BBBBBBBB#####',
+      'AAABBBDDDBBBAAA#',
+      'AAABBBDDDBBBAAA#',
+      'AAABBBBBBBBBAAA#',
+      '###BBBBBBBB#####',
+      '###BAAAAAABB####',
+      '###BFAAAFBBB####',
+      '###BBBBBBBBB####',
+      '####ABBBBBAA####',
+      '####ABBBBBAA####',
+      '#####AAAAA######',
+      '#####AAAAA######',
+    ]
   },
-  INFJ: {
-    mob: "Bat",
-    emoji: "🦇",
-    tagline: "The Hidden Perceiver",
-    behavioral: "Passive · Somewhat social (but hidden) · Moderate predictability · Moderate intelligence · Very high environmental sensitivity",
-    explanation: "You are the Bat — almost entirely perceptual. You navigate via echolocation: processing signals from the environment without direct contact, building an internal map of unseen space. You are nocturnal, operating in darkness, in the hidden registers of experience. You hang upside down at rest — perspective inversion is your default state. The Bat is present everywhere in caves but rarely noticed; it perceives everything and participates in almost nothing — until the moment is exactly right. This is Ni-Fe: deep pattern perception (Ni) oriented toward a felt connection to the world (Fe), with very little immediate physical action. INFJs are the Bat: they understand everything around them and feel the weight of it, long before they're ready to act.",
-    functions: { Ni: 8, Fe: 7, Ti: 4, Se: 1 }
+
+  // ── BAT ── INFJ
+  INFJ:{
+    p:{A:'#1a1a1a',B:'#0d0d0d',C:'#ff3333',D:'#444444',E:'#2a2a2a'},
+    m:[
+      'BBBBB######BBBBB',
+      'BBBBB######BBBBB',
+      'BBBBAAAAAAAAABBB',
+      'BBBBAACAACAAABB#',
+      'BBBBAAAAAAAAAAB#',
+      '#BBBBAAAAAAAAAB#',
+      '##BBBBAAAAABBB##',
+      '###BBBBBBBBBB###',
+      '####AAAAAAAA####',
+      '####ADAADAAA####',
+      '####AAAAAADA####',
+      '#####AAAAAA#####',
+      '#####AAAAAA#####',
+      '######AAAA######',
+      '#######AA#######',
+      '################',
+    ]
   },
-  INFP: {
-    mob: "Ocelot",
-    emoji: "🐱",
-    tagline: "The Wary Observer",
-    behavioral: "Near-passive · Extremely solitary · Low predictability · Moderate intelligence · Moderate environmental sensitivity",
-    explanation: "You are the Ocelot — impossible to approach directly. It flees from anyone who moves too fast, who is too direct, too forceful. Taming requires patient, slow, indirect approach — and once trust is earned, the Ocelot becomes genuinely loyal and deeply affectionate. This is Fi-Ne precisely: an intensely private interior value system (Fi) that imagines rich possible futures (Ne) but simply cannot be *commanded* into relationship. The relationship must be *earned*. And in one telling detail: the Ocelot naturally repels Creepers. Fi-types' authentic individuality is structurally disruptive to the conformist, suppressed-emotional-energy dynamics Creepers represent. Your weakness (inferior Te) shows in your near-total lack of practical utility until you've decided, on your own terms, to cooperate.",
-    functions: { Fi: 8, Ne: 7, Si: 4, Te: 1 }
+
+  // ── OCELOT ── INFP
+  INFP:{
+    p:{A:'#d4a030',B:'#ffffff',C:'#222222',D:'#ff8844',E:'#7a5010'},
+    m:[
+      '####AAAAAAAA####',
+      '###AAAAAAAAAA###',
+      '###AACAAAAACA###',
+      '###AAAAAAAAAA###',
+      '###ABBBBBBBBA###',
+      '####ABBBBBBA####',
+      '####AABBBBA#####',
+      '###AAAAAAAAA####',
+      '###AACEAECAA####',
+      '##AAAAAAAAAA####',
+      '##AAAAAAAAAA####',
+      '##ACAAAAACAA####',
+      '###AAAAAAAAAA###',
+      '####AAAAAAAA####',
+      '#####AAAA##AAAA#',
+      '#####AAAA##AAAA#',
+    ]
   },
-  ENFJ: {
-    mob: "Iron Golem",
-    emoji: "🗿",
-    tagline: "The Dutiful Guardian",
-    behavioral: "Protective aggression · High social (community-bound) · High predictability · Moderate intelligence · Moderate environmental sensitivity",
-    explanation: "You are the Iron Golem — created and sustained by purpose. It patrols the village without being asked. It walks toward threats without hesitation, absorbing punishment so that the community doesn't have to. It throws attackers skyward — a dramatic, protective gesture. And it brings flowers to villagers: Fe expressing warmth spontaneously, without being prompted. The Iron Golem has no self-interest in the typical sense; it is entirely oriented toward those in its care. Your dominant Fe means your values are enacted through the community. Your inferior Ti shows in the Golem's characteristic limitation: it cannot reason about exceptions — offend it once, and it cannot update its model. Fe loyalty, once broken, doesn't always recalculate.",
-    functions: { Fe: 8, Ni: 7, Se: 5, Ti: 1 }
+
+  // ── IRON GOLEM ── ENFJ
+  ENFJ:{
+    p:{A:'#aaaaaa',B:'#888888',C:'#555555',D:'#cccccc',E:'#ff4444',F:'#ffffff'},
+    m:[
+      '####DDDDDDDDD###',
+      '###DDDDDDDDDDD##',
+      '###DBDDDDDDBDD##',
+      '###DBDDDDDDBDD##',
+      '###DDDDDDDDDDD##',
+      '##ADDDDDDDDDDDAA',
+      'CAADDBBBBBBDDAAC',
+      'CAADDDBBBBDDDAAC',
+      'CAADDBBBBBBDDAAC',
+      'CAADDDDDDDDDAAAC',
+      '####DDDDDDDDD###',
+      '####DDDDDDDDD###',
+      '####DDDDDDDDD###',
+      '###CDDDD##DDDDC#',
+      '###CDDDD##DDDDC#',
+      '###CDDDD##DDDDC#',
+    ]
   },
-  ENFP: {
-    mob: "Parrot",
-    emoji: "🦜",
-    tagline: "The Social Mirror",
-    behavioral: "Non-aggressive · Extreme sociality · High predictability in social behavior · Moderate intelligence · Moderate environmental sensitivity",
-    explanation: "You are the Parrot — joyful, magnetic, and present. The Parrot mimics nearby mob sounds, sampling the environment for new patterns (Ne in action). It follows players with unself-conscious enthusiasm (Ne + Fi warmth). It cannot resist dancing when music plays — an immediate, unfiltered response to sensory-emotional input. The Parrot exists to be *delightful*. It generates social energy by reflecting and amplifying. But the Parrot's famous tragic flaw — it will eat a cookie and die — is the inferior Si laid bare: it cannot integrate the lesson of what is harmful to it. The excitement of the present moment overrides accumulated experiential wisdom. ENFPs are the Parrot: vivid, connective, genuinely charming, and occasionally undone by their own enthusiasm for the next thing.",
-    functions: { Ne: 8, Fi: 7, Te: 4, Si: 1 }
+
+  // ── PARROT ── ENFP
+  ENFP:{
+    p:{A:'#dd2222',B:'#22aa22',C:'#2255ff',D:'#ffee00',E:'#ff8800',F:'#ffffff'},
+    m:[
+      '####AAAAAAA#####',
+      '###AAAAAAAA#####',
+      '###ADDDDAAA#####',
+      '###ADFFDDAA#####',
+      '###AAAAAAA######',
+      '###BBBBBBBBB####',
+      '##BBBBBBBBBBB###',
+      '##BBBCCCCBBBBB##',
+      '##BBBBCCCBBBBB##',
+      '##BBBBBBBBBBB###',
+      '###BBBBBBBBB####',
+      '####DDDDDDD#####',
+      '#####DDDDD######',
+      '#####DDDDD######',
+      '#####DD#DD######',
+      '################',
+    ]
   },
-  ISTJ: {
-    mob: "Sheep",
-    emoji: "🐑",
-    tagline: "The Comfortable Conformist",
-    behavioral: "Non-aggressive · High sociality (herd) · Very high predictability · Low intelligence · Low environmental sensitivity",
-    explanation: "You are the Sheep — not as an insult, but as a precise behavioral archetype. Your dominant Si means you operate by established patterns, proven methods, and reliable rhythms. Sheep graze in the same areas, follow each other instinctively, and provide consistent, renewable resources — Si's gift of dependable sustenance. They don't explore; they don't deviate. In one beautiful mechanic: if you dye a Sheep, its lambs inherit the color. Tradition passes literally through generations. Si-Te is the most institutionally reliable combination in the function stack — and the Sheep is the world's most institutionally reliable animal. The inferior Ne shows in Sheep's inability to respond to genuinely novel situations. They stand there. And they're fine.",
-    functions: { Si: 8, Te: 7, Fi: 4, Ne: 1 }
+
+  // ── SHEEP ── ISTJ
+  ISTJ:{
+    p:{A:'#f0f0f0',B:'#dddddd',C:'#555544',D:'#888877',E:'#222211'},
+    m:[
+      '####AAAAAAAAAA##',
+      '###AAAAAAAAAAAA#',
+      '###AABAAAAAABAAA',
+      '###AAAAAAAAAA###',
+      '###AAAAAAAAAAAA#',
+      '###AAAAAAAAAAAA#',
+      '###AAAAAAAAAAAA#',
+      '###AAAAAAAAAAAA#',
+      '####CCCCCCCCCC##',
+      '####CCCCCCCCCC##',
+      '#####CCCCCCCC###',
+      '#####CC####CC###',
+      '#####CC####CC###',
+      '#####CC####CC###',
+      '################',
+      '################',
+    ]
   },
-  ISFJ: {
-    mob: "Pig",
-    emoji: "🐷",
-    tagline: "The Guileless Wanderer",
-    behavioral: "Non-aggressive · Moderate sociality · Very high predictability · Low intelligence · Very low environmental sensitivity",
-    explanation: "You are the Pig — and nothing about that is a diminishment. The Pig is the most dependably gentle creature in Minecraft. It wanders peacefully, eats what you offer, follows where you lead (with the right incentive — Si responding to clear, established structure), and provides for the community in the long run. The Pig is not uncomplicated because it's simple — it's uncomplicated because it has no interest in the things outside its immediate, sensory, relational world. Si-Fe: comfort in the familiar, service to others' needs, no appetite for abstract possibility. ISFJs are the world's Pigs: unpretentious, reliable, quietly essential, and profoundly underappreciated by any framework that values novelty over loyalty.",
-    functions: { Si: 8, Fe: 7, Ti: 4, Ne: 1 }
+
+  // ── PIG ── ISFJ
+  ISFJ:{
+    p:{A:'#ffaaaa',B:'#ff8888',C:'#cc6666',D:'#ff6688',E:'#222222'},
+    m:[
+      '#####AAAAAAAA###',
+      '####AAAAAAAAAA##',
+      '####AAEAAAAEAA##',
+      '####AAAAAAAAAA##',
+      '####AABBBBAAA###',
+      '####ABDDDBBA####',
+      '####AABBBBAAA###',
+      '####AAAAAAAAAA##',
+      '####AAAAAAAAAA##',
+      '####AAAAAAAAAA##',
+      '#####AAAAAAAA###',
+      '#####AA####AA###',
+      '#####AA####AA###',
+      '#####AA####AA###',
+      '################',
+      '################',
+    ]
   },
-  ESTJ: {
-    mob: "Guardian",
-    emoji: "🔱",
-    tagline: "The Territorial Enforcer",
-    behavioral: "High systematic aggression · Moderate sociality (patrol unit) · Very high predictability · Moderate intelligence · High environmental sensitivity",
-    explanation: "You are the Guardian — and you patrol a purpose-built institution with mechanical precision. The Ocean Monument is an ESTJ's natural environment: structured, functional, architecturally deliberate. The Guardian's laser requires sustained line-of-sight to fire — Te-Si in action: methodical targeting, no impulsive action, rules-based engagement. It swims in formation with others. It defends the institution not because it *feels* for it but because defending the institution is its *function*. Most revealingly: the Elder Guardian inflicts Mining Fatigue on intruders, making it structurally harder to dismantle what it protects. Te-Si territoriality at its peak — not just defending the walls, but making it cognitively harder for others to tear them down.",
-    functions: { Te: 8, Si: 7, Ne: 4, Fi: 1 }
+
+  // ── GUARDIAN ── ESTJ
+  ESTJ:{
+    p:{A:'#116644',B:'#22aa77',C:'#ff8800',D:'#004433',E:'#aaffdd'},
+    m:[
+      '###AAAAAAAAAAAA#',
+      '##AAAAAAAAAAAAA#',
+      '##ACAAAAAAAADAA#',
+      '##ACCAAAAAADDAA#',
+      '##AAAAAAAAAADAA#',
+      '#AAAAAAAAAAAAAAA',
+      '#AAAACCCAAAAABAA',
+      '##AAACCCCAAAABAA',
+      '##AAAAAAAAAAABAA',
+      '##ABABABABABABAA#',
+      '##BABABABABABABAA',
+      '##ABABABABABABAA#',
+      '###AAAAAAAAAAAA#',
+      '####AAAAAAAAAA##',
+      '#####AAAAAAAA###',
+      '################',
+    ]
   },
-  ESFJ: {
-    mob: "Wolf",
-    emoji: "🐺",
-    tagline: "The Pack Loyalist",
-    behavioral: "Protective aggression (loyalty-triggered) · Very high sociality · Moderate predictability · Moderate intelligence · High environmental sensitivity",
-    explanation: "You are the Wolf — and the Wolf's behavioral arc is the ESFJ story told in mechanics. Wild, the Wolf is neutral: wary, pack-oriented, neither warm nor hostile. Tamed — once the relationship is established — it becomes *completely devoted*. It follows, defends, sits when asked, and its tail visibly drops when it's unhappy (Fe emotional transparency made literal). Tamed Wolves attack anything that attacks their person without hesitation. And they *remember* — Si encodes the harm; the grudge is real and lasting. The inferior Ti shows in one characteristic failure: the Wolf cannot make nuanced judgments about proportionality. Perceived threat to what it loves triggers total response. This is Fe-Si loyalty: absolute, embodied, and completely sincere.",
-    functions: { Fe: 8, Si: 7, Ne: 4, Ti: 1 }
+
+  // ── WOLF ── ESFJ
+  ESFJ:{
+    p:{A:'#bbbbbb',B:'#888888',C:'#444444',D:'#ffffff',E:'#222222'},
+    m:[
+      '####AAAAAAAA####',
+      '###AAAAAAAAAA###',
+      '###AEAAAAAAEA###',
+      '###AAAAAAAAAA###',
+      '###ADDDDDDAAA###',
+      '###ADDDDDDAAA###',
+      '###AAAAAAAAAA###',
+      '###AAAAAAAAAA###',
+      '###AAAAAAAAAA###',
+      '###AAAAAAAAAA###',
+      '####AAAAAAAA####',
+      '####AA####AA####',
+      '####AA####AA####',
+      '###BAA####AAB###',
+      '###BAA####AAB###',
+      '################',
+    ]
   },
-  ISTP: {
-    mob: "Spider",
-    emoji: "🕷️",
-    tagline: "The Opportunist",
-    behavioral: "Conditional aggression · Low sociality · Moderate predictability · Moderate intelligence · High environmental sensitivity",
-    explanation: "You are the Spider — a masterclass in adaptive physicality and conditional logic. The Spider can climb walls (Se mastery of the physical environment), changes behavior based on light level (Ti recalibrating its operational model based on sensory input), and can sense you through walls at range. It is neutral in daylight, hostile in darkness — not aggressive by default, but fully capable of decisive action when its conditions are met. The Spider doesn't hate you; it operates according to an internal framework of when-to-act. It is solitary, technically sophisticated in navigation, and entirely without social motivation. ISTPs don't look for conflict. They just have very precise conditions under which they engage — and when those conditions are met, they are exceptionally effective.",
-    functions: { Ti: 8, Se: 7, Ni: 4, Fe: 1 }
+
+  // ── SPIDER ── ISTP
+  ISTP:{
+    p:{A:'#222222',B:'#111111',C:'#ff2200',D:'#441111',E:'#333333'},
+    m:[
+      'B###B########B##',
+      'BB#BB########BB#',
+      '#BBBBBBBBBBBBB##',
+      '#BACCAACCAACCA##',
+      '#BAAAAAAAAAABA##',
+      '#BBBBBBBBBBBB###',
+      '#BBB######BBB###',
+      '##BB########BB##',
+      'BB############BB',
+      'B##############B',
+      'B##############B',
+      'BB############BB',
+      '###BB########BB#',
+      '####BB######BB##',
+      '################',
+      '################',
+    ]
   },
-  ISFP: {
-    mob: "Horse",
-    emoji: "🐴",
-    tagline: "The Capable Companion",
-    behavioral: "Non-aggressive · Moderate sociality · High predictability (once tamed) · Moderate intelligence · Moderate environmental sensitivity",
-    explanation: "You are the Horse — beautiful, capable, and impossible to force into relationship. Taming a Horse requires being thrown off repeatedly: the Horse must *choose* to accept you. No command works. No shortcut exists. Once trust is given, what emerges is a seamless physical partnership — the rider guides, the Horse executes with fluid, responsive grace. This is Fi-Se: an intensely private interior value system (Fi) expressed through mastery of the immediate physical world (Se). The Horse serves no institution and obeys no system. It partners with individuals on its own terms, on its own timeline. The inferior Te shows in the Horse's near-zero practical utility until *it* decides the relationship is real.",
-    functions: { Fi: 8, Se: 7, Ni: 4, Te: 1 }
+
+  // ── HORSE ── ISFP
+  ISFP:{
+    p:{A:'#884422',B:'#cc8844',C:'#ffcc88',D:'#221100',E:'#222222'},
+    m:[
+      '######AAAA######',
+      '#####AAAAAA#####',
+      '####AAAAAAAA####',
+      '####AAEAAAAA####',
+      '####AAAAAABB####',
+      '####AAAAAAAA####',
+      '####AAAAAAAA####',
+      '####BAAAAAAB####',
+      '####BAAAAAAB####',
+      '####AAAAAAAA####',
+      '####AAAAAAAA####',
+      '####AAAAAAAA####',
+      '###AAAA##AAAA###',
+      '###AAAA##AAAA###',
+      '###AAAA##AAAA###',
+      '################',
+    ]
   },
-  ESTP: {
-    mob: "Zombie Pigman",
-    emoji: "⚔️",
-    tagline: "The Collective Retaliator",
-    behavioral: "Herd-reactive aggression · High sociality · Low predictability (reactive) · Low intelligence · Low environmental sensitivity",
-    explanation: "You are the Zombie Pigman — which sounds like an insult until you understand what it actually means behaviorally. The Zombie Pigman wanders through the Nether doing nothing — until provoked. Then the *entire group* retaliates immediately: Se triggers instant physical mobilization, Ti maintains a cold internal logic (you hit one, you're a threat to all), Fe-herd means everyone joins. The response is fast, physical, and total. There's no long-term grudge — inferior Ni means they forget if the threat disappears. No moral calculation. No strategy beyond immediate, overwhelming response. ESTPs are not cruel — they are *immediate*. They read the physical situation at speed and act in it completely. The Zombie Pigman doesn't plan. It reacts. And the reaction is genuinely impressive.",
-    functions: { Se: 8, Ti: 7, Fe: 4, Ni: 1 }
+
+  // ── ZOMBIE PIGMAN ── ESTP
+  ESTP:{
+    p:{A:'#ffaaaa',B:'#885500',C:'#ffdd44',D:'#228800',E:'#aa3300',F:'#222222'},
+    m:[
+      '####AAAAAAAA####',
+      '###AAAAAAAAAA###',
+      '###AFAAAAAAFA###',
+      '###AEEEAEEEA####',
+      '###AAAAAAAAAA###',
+      '###AABBBBBBAA###',
+      '###AABBBBBBAA###',
+      '###AAAAAAAAAA###',
+      '###ADDDDDDDDAA##',
+      '##AADDDDDDDAAAA#',
+      '##AAAAAAAAAAAAA#',
+      '##AAAAAAAAAAAAA#',
+      '###AAAA##AAAAA##',
+      '###AAAA##AAAAA##',
+      '###AAAA##AAAAA##',
+      '################',
+    ]
   },
-  ESFP: {
-    mob: "Llama",
-    emoji: "🦙",
-    tagline: "The Stubborn Caravan",
-    behavioral: "Reactive aggression (dramatic) · High sociality · Moderate predictability · Low intelligence · Moderate environmental sensitivity",
-    explanation: "You are the Llama — social, vivid, dramatically expressive, and fundamentally your own entity. The Llama travels in caravans: movement, presence, momentum, collective energy — Se sociality in motion. When provoked, it spits. Immediately and personally. Not dangerously, but emphatically. No mob has a more characterful retaliation mechanic. It will not be ridden without taming — and even then, taming grants only *tolerance*, not submission. It still spits at Wolves. The Llama is Fi-Se: intensely present in the moment (Se), oriented by personal values that won't bend (Fi), moving through the world with a group but never fully controlled by it. ESFPs are the Llama: vivid, irrepressible, impossible to truly control, and deeply entertaining to encounter.",
-    functions: { Se: 8, Fi: 7, Te: 4, Ni: 1 }
-  }
+
+  // ── LLAMA ── ESFP
+  ESFP:{
+    p:{A:'#ddcc99',B:'#bbaa77',C:'#888866',D:'#ffffff',E:'#222222'},
+    m:[
+      '##AAAA##########',
+      '##AAAA##########',
+      '##AAAAAAAAAA####',
+      '##AAEAAAAE######',
+      '##AAAAAAAAAA####',
+      '##AADDDDDDAA####',
+      '##AADDDDDDAA####',
+      '##AAAAAAAAAAAA##',
+      '##AAAAAAAAAAAA##',
+      '##AAAAAAAAAAAA##',
+      '###AAAAAAAAAA###',
+      '###AA####AAAA###',
+      '###AA####AAAA###',
+      '###AA####AAAA###',
+      '###AA####AAAA###',
+      '################',
+    ]
+  },
+
 };
 
-// ═══════════════════════════════════════════════════════════════════════
-//  QUIZ STATE
-// ═══════════════════════════════════════════════════════════════════════
-let currentQ = 0;
-let answers  = {}; // { qIndex: fnCode }
-let scores   = { Ti:0, Te:0, Fi:0, Fe:0, Ni:0, Ne:0, Si:0, Se:0 };
+// Draw a mob onto a canvas element
+function drawMob(canvas, type, scale) {
+  const art = MOB_ART[type];
+  if (!art) return;
+  const ctx = canvas.getContext('2d');
+  const S = scale || 4;
+  canvas.width  = 16 * S;
+  canvas.height = 16 * S;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.imageSmoothingEnabled = false;
 
-// ═══════════════════════════════════════════════════════════════════════
-//  SCREEN MANAGEMENT
-// ═══════════════════════════════════════════════════════════════════════
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  for (let r = 0; r < 16; r++) {
+    const row = art.m[r] || '';
+    for (let c = 0; c < 16; c++) {
+      const ch = row[c];
+      if (!ch || ch === '#') continue;
+      const col = art.p[ch];
+      if (!col) continue;
+      ctx.fillStyle = col;
+      ctx.fillRect(c * S, r * S, S, S);
+    }
+  }
+}
+
+// Build landing parade
+const PARADE_TYPES = ['ENTJ','INTJ','ENFP','ISTP','ESFJ','INFP','ESTJ','ISFP'];
+function buildParade() {
+  const parade = document.getElementById('parade');
+  PARADE_TYPES.forEach(type => {
+    const wrap = document.createElement('div');
+    wrap.className = 'mob-icon';
+    const c = document.createElement('canvas');
+    c.style.imageRendering = 'pixelated';
+    wrap.appendChild(c);
+    parade.appendChild(wrap);
+    drawMob(c, type, 3);
+  });
+}
+
+// Loading spinner uses Ender Dragon (boss = dramatic)
+function drawLoading() {
+  const c = document.getElementById('loading-canvas');
+  drawMob(c, 'ENTJ', 4);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  QUESTIONS
+// ═══════════════════════════════════════════════════════════
+const QUESTIONS = [
+  {text:"You need to make an important decision quickly. You tend to:",options:[{text:"Run through the internal logic until it holds together perfectly, even if it takes a moment.",fn:"Ti"},{text:"Weigh the outcomes and pick the option most likely to achieve the objective.",fn:"Te"},{text:"Check whether the choice aligns with what you genuinely believe is right.",fn:"Fi"},{text:"Read the room — what does this mean for the people involved?",fn:"Fe"}]},
+  {text:"After a week of intense social activity, you feel:",options:[{text:"Depleted — you need significant alone time to recharge and process.",fn:"Ti"},{text:"Wired but hollow — you performed well, but something wasn't quite engaged.",fn:"Ni"},{text:"Fine, maybe tired — social energy is interesting fuel, not a drain.",fn:"Ne"},{text:"Energized and connected — you thrive in that kind of environment.",fn:"Fe"}]},
+  {text:"You're exploring an unfamiliar city alone. What captures your attention most?",options:[{text:"The unexpected details — a strange texture on a wall, an alley you haven't seen.",fn:"Se"},{text:"How the layout connects — you're building a mental map of the underlying logic.",fn:"Ni"},{text:"What's possible here — you're imagining all the different directions you could go.",fn:"Ne"},{text:"How it compares to other places you've been — familiar touchstones vs. differences.",fn:"Si"}]},
+  {text:"A friend presents a theory they're excited about. It has some logical holes. You:",options:[{text:"Point out the inconsistencies precisely — you can't let a flawed argument stand.",fn:"Ti"},{text:"Redirect them toward a more workable version that actually produces results.",fn:"Te"},{text:"Notice but hold back — you don't want to crush their enthusiasm if it matters to them.",fn:"Fi"},{text:"Engage warmly with the spirit of what they're saying, gently raising questions.",fn:"Fe"}]},
+  {text:"When working on a long project, you prefer to:",options:[{text:"Develop the core framework first — the structure has to be internally coherent.",fn:"Ti"},{text:"Set milestones and work toward measurable deliverables at each stage.",fn:"Te"},{text:"Follow the thread that feels meaningful, even if the path isn't linear.",fn:"Fi"},{text:"Check in with collaborators regularly to make sure everyone is aligned.",fn:"Fe"}]},
+  {text:"How do you typically relate to the future?",options:[{text:"You have a strong, specific sense of where things are heading — almost a felt certainty.",fn:"Ni"},{text:"You see many branching possibilities and find that energizing rather than paralyzing.",fn:"Ne"},{text:"You prefer to stay grounded in what's real and present — speculation feels abstract.",fn:"Se"},{text:"The future is best understood by carefully applying what's been learned before.",fn:"Si"}]},
+  {text:"When someone is in emotional distress, you instinctively:",options:[{text:"Try to understand their internal experience from the inside — you feel with them.",fn:"Fi"},{text:"Read what they need right now and respond to that, even if it's wordless.",fn:"Fe"},{text:"Help them think through what's actually happening and what can be done.",fn:"Te"},{text:"Offer perspective — if you can see the pattern, you can help them see the way out.",fn:"Ni"}]},
+  {text:"You're in an argument. Your instinct is to:",options:[{text:"Identify exactly where the logic breaks down — find the precise point of error.",fn:"Ti"},{text:"Cut to what the argument is actually about and what would resolve it effectively.",fn:"Te"},{text:"Stand firm on what you believe is right, even if the social pressure is intense.",fn:"Fi"},{text:"Look for common ground — the relationship matters as much as being right.",fn:"Fe"}]},
+  {text:"Which best describes your relationship with routine?",options:[{text:"You build systems — but your own, idiosyncratic ones, optimized internally.",fn:"Ti"},{text:"Routine is a productivity tool — you use it when it works and abandon it when it doesn't.",fn:"Te"},{text:"You value consistency and find comfort in the familiar patterns of your life.",fn:"Si"},{text:"Routine is something you resist — novelty and spontaneity are more alive.",fn:"Se"}]},
+  {text:"You come across a complex phenomenon you've never encountered. Your first move is to:",options:[{text:"Break it into components and work out how they relate — build a model.",fn:"Ti"},{text:"Research precedents and find what approaches have worked on similar problems.",fn:"Si"},{text:"Generate multiple hypotheses rapidly — this could go in so many directions.",fn:"Ne"},{text:"Trust the intuition forming at the edge of your awareness — something's clicking.",fn:"Ni"}]},
+  {text:"When you travel or encounter something new, what you most remember afterward is:",options:[{text:"Specific sensory moments — textures, smells, tastes, sounds that were vivid.",fn:"Se"},{text:"How it confirmed, challenged, or updated something you already knew.",fn:"Si"},{text:"The underlying insight it gave you — a new way of understanding something broader.",fn:"Ni"},{text:"All the things it made you want to explore next — it opened doors.",fn:"Ne"}]},
+  {text:"Which of these scenarios would you find most satisfying?",options:[{text:"Solving an elegant theoretical problem no one else has cracked.",fn:"Ti"},{text:"Building something that measurably improves how a system works.",fn:"Te"},{text:"Creating something deeply personal that expresses what you actually believe.",fn:"Fi"},{text:"Helping a community navigate a difficult transition together.",fn:"Fe"}]},
+  {text:"You're most likely to lose track of time when:",options:[{text:"Deep in a theoretical or logical puzzle — hours vanish in the analysis.",fn:"Ti"},{text:"Physically engaged — moving, creating with your hands, experiencing the world.",fn:"Se"},{text:"In rich conversation where ideas are building off each other rapidly.",fn:"Ne"},{text:"Absorbed in a long, detailed task you've done many times but still find grounding.",fn:"Si"}]},
+  {text:"Your closest relationships tend to be:",options:[{text:"A few deep, carefully chosen bonds — you're selective but intensely loyal.",fn:"Fi"},{text:"Warm and numerous — you genuinely like people and connection comes naturally.",fn:"Fe"},{text:"Defined by intellectual respect — you bond over shared ideas and sharp minds.",fn:"Ti"},{text:"Built slowly through shared experience and demonstrated reliability.",fn:"Si"}]},
+  {text:"When a crisis hits, people around you would probably describe you as:",options:[{text:"The one who immediately identifies what needs to happen and starts making it happen.",fn:"Te"},{text:"The one who stays eerily calm and has already seen how this plays out.",fn:"Ni"},{text:"The one who acts physically and decisively in the moment — instinctive response.",fn:"Se"},{text:"The one who holds everyone together emotionally while the storm passes.",fn:"Fe"}]},
+  {text:"What's your honest relationship with rules and authority?",options:[{text:"Rules need to justify themselves logically — if they can't, they don't bind you.",fn:"Ti"},{text:"Rules are tools — you follow effective ones and advocate changing ineffective ones.",fn:"Te"},{text:"Rules that conflict with deep personal values don't really bind you internally.",fn:"Fi"},{text:"Rules are social agreements — following them maintains the fabric of the community.",fn:"Si"}]},
+  {text:"Which inner experience feels most familiar to you?",options:[{text:"A persistent sense that things are pointing toward something — a pattern assembling.",fn:"Ni"},{text:"A constant stream of connections — things are always reminding you of other things.",fn:"Ne"},{text:"An acute awareness of what's happening right now, in this room, in this moment.",fn:"Se"},{text:"A rich library of detailed memories that you frequently return to.",fn:"Si"}]},
+  {text:"When you express disagreement, you tend to:",options:[{text:"Lay out exactly why the position is internally inconsistent.",fn:"Ti"},{text:"Point to concrete results or evidence that contradict the claim.",fn:"Te"},{text:"Express it as a matter of personal conviction — 'I just don't believe that's right.'",fn:"Fi"},{text:"Frame it carefully so the relationship doesn't fracture over the disagreement.",fn:"Fe"}]},
+  {text:"When starting a creative project, you:",options:[{text:"Begin with a precise structure or framework — the logic has to work first.",fn:"Ti"},{text:"Start with the end in mind and work backward — you know what you're building.",fn:"Ni"},{text:"Explore freely and follow whatever direction feels generative — the form emerges.",fn:"Ne"},{text:"Draw from techniques and experiences that have worked before.",fn:"Si"}]},
+  {text:"How do you usually know when a decision is right?",options:[{text:"It holds together logically — no internal contradiction, no gap in the reasoning.",fn:"Ti"},{text:"It produces results — you test it and it works.",fn:"Te"},{text:"It resonates — it feels congruent with something deep in you.",fn:"Fi"},{text:"You just know — a convergent certainty that defies full articulation.",fn:"Ni"}]},
+  {text:"Among a group of friends planning something together, you're most likely to be:",options:[{text:"The one quietly analyzing whether the plan will actually work.",fn:"Ti"},{text:"The one pushing to set concrete goals and assign roles.",fn:"Te"},{text:"The one introducing possibilities no one had considered.",fn:"Ne"},{text:"The one making sure everyone feels heard before you move forward.",fn:"Fe"}]},
+  {text:"When you face uncertainty, your most natural instinct is to:",options:[{text:"Think it through until the uncertainty collapses into clarity.",fn:"Ti"},{text:"Act — doing something produces data, which reduces uncertainty faster than thinking.",fn:"Se"},{text:"Sit with it — the answer often surfaces if you give your mind space.",fn:"Ni"},{text:"Recall how you or others have navigated similar uncertainty before.",fn:"Si"}]},
+  {text:"What does 'being true to yourself' mean to you?",options:[{text:"Living by the values and ethical commitments that are genuinely yours, regardless of opinion.",fn:"Fi"},{text:"Acting consistently with your principles, especially under pressure.",fn:"Ti"},{text:"Staying connected to the people and communities that matter most to you.",fn:"Fe"},{text:"Honoring who you have been — your history and experience define you.",fn:"Si"}]},
+  {text:"What kind of intelligence do you most admire in others?",options:[{text:"Analytical depth — someone who can dissect any problem with surgical precision.",fn:"Ti"},{text:"Strategic intelligence — getting the right things done in the right order.",fn:"Te"},{text:"Visionary intelligence — seeing what others can't yet see.",fn:"Ni"},{text:"Connective intelligence — linking ideas across wildly different domains.",fn:"Ne"}]},
+  {text:"Which statement most resonates with you?",options:[{text:"'I want to understand exactly how this works, not just that it works.'",fn:"Ti"},{text:"'I want to build something that actually makes a difference.'",fn:"Te"},{text:"'I want what I create to be genuinely mine — to mean something.'",fn:"Fi"},{text:"'I want to connect with people in a way that actually matters to them.'",fn:"Fe"}]},
+  {text:"Your approach to physical or outdoor environments is:",options:[{text:"Immediate and sensory — you dive in, explore, and respond to what's there.",fn:"Se"},{text:"Planned — you prepare, understand the terrain, and execute methodically.",fn:"Te"},{text:"Nostalgic and specific — certain places carry deep memory and meaning.",fn:"Si"},{text:"Abstractly curious — you're more interested in what the place represents.",fn:"Ni"}]},
+  {text:"When you read fiction, you tend to care most about:",options:[{text:"The internal consistency of the world — plot holes genuinely bother you.",fn:"Ti"},{text:"Whether the characters feel psychologically authentic and complex.",fn:"Fi"},{text:"The atmosphere and sensory texture — how vividly you can inhabit the world.",fn:"Se"},{text:"The thematic depth — what it says about human experience at a larger scale.",fn:"Ni"}]},
+  {text:"Reflecting on how you've changed over time, you mostly notice:",options:[{text:"Your understanding has deepened — your models are more refined and accurate.",fn:"Ti"},{text:"Your vision has clarified — you know more precisely who and what you're becoming.",fn:"Ni"},{text:"Your values have crystallized — you know what matters and what doesn't.",fn:"Fi"},{text:"Your relationship to tradition and continuity has become more important.",fn:"Si"}]},
+];
+
+// ═══════════════════════════════════════════════════════════
+//  MOB DATA
+// ═══════════════════════════════════════════════════════════
+const MOB_DATA = {
+  INTJ:{mob:"Enderman",tagline:"The Sovereign Self",behavioral:"Reactive aggression · Absolute solitary · Moderate predictability · High adaptive intelligence · Extreme environmental sensitivity",explanation:"You are the Enderman — not because you're 'mysterious,' but because of the precise behavioral profile your cognitive functions produce. Your dominant Ni means you're driven by a singular, convergent internal vision most people can't access. Your auxiliary Te means you pursue that vision through calculated, efficient action. You don't initiate conflict — but when someone violates your sovereignty (direct eye contact = boundary violation), the response is immediate and total. Like the Enderman teleporting to avoid rain, you actively remove yourself from environments that destabilize your internal coherence. You are self-determined, architecturally private, and operating at a frequency most people can't quite tune into."},
+  INTP:{mob:"Witch",tagline:"The Calculating Hermit",behavioral:"High aggression when engaged · Extreme solitary · Moderate predictability · Very high intelligence · High environmental sensitivity",explanation:"You are the Witch — a master of an internal logical system so elaborate you've built an entire world from it. Your dominant Ti means you've constructed your own framework for understanding reality: precise, idiosyncratic, and privately held. Your auxiliary Ne gives you an enormous repertoire; you approach any problem from multiple angles. The Witch doesn't attack emotionally — it calculates, selects, and executes methodically. It lives alone not from loneliness but from preference. And in one telling detail, it throws Weakness potions at itself when confused — a very Ti move: applying the system even when the target is self."},
+  ENTJ:{mob:"Ender Dragon",tagline:"The Apex Visionary",behavioral:"Total aggression when challenged · Absolute solitary · Moderate predictability · High intelligence · High environmental sensitivity",explanation:"You are the Ender Dragon — not a villain, but an apex archetype. Your dominant Te means you have claimed your domain and you run it. The Dragon patrols with purpose, returns to its pillar with precision, and engages threats with sweeping, overwhelming force. Your auxiliary Ni gives the long-horizon vision: the Dragon doesn't react randomly — it has a pattern, a home base, a sense of its own sovereignty. Te + Ni is the pairing most associated with strategic total control. The Dragon doesn't pursue you maliciously; it simply will not tolerate its sovereignty being challenged. This isn't cruelty. This is what it looks like when someone fully occupies their own power."},
+  ENTP:{mob:"Blaze",tagline:"The Burning Disciplinarian",behavioral:"High aggression in bursts · Moderate social · High predictability of method · High intelligence · High environmental sensitivity",explanation:"You are the Blaze — aerial, volatile, and operating in an environment most creatures can't survive. Your dominant Ne means you attack in rapid, expansive bursts: three fireballs, recalibrate, three more. You generate options and execute them in succession, always testing. Your auxiliary Ti is the recalibration: after the burst, you assess, adjust, and prepare the next volley. The Blaze floats untethered in the Nether — the abstract conceptual space ENTPs inhabit. And the Blaze's fatal weakness to snowballs — something cold, grounded, Si-coded — maps perfectly to the ENTP's inferior Si: undone by neglect of routine, groundedness, and accumulated wisdom."},
+  INFJ:{mob:"Bat",tagline:"The Hidden Perceiver",behavioral:"Passive · Somewhat social (but hidden) · Moderate predictability · Moderate intelligence · Very high environmental sensitivity",explanation:"You are the Bat — almost entirely perceptual. You navigate via echolocation: processing signals from the environment without direct contact, building an internal map of unseen space. You are nocturnal, operating in darkness, in the hidden registers of experience. The Bat is present everywhere in caves but rarely noticed; it perceives everything and participates in almost nothing until the moment is exactly right. This is Ni-Fe: deep pattern perception oriented toward a felt connection to the world, with very little immediate physical action. INFJs are the Bat: they understand everything around them and feel the weight of it, long before they're ready to act."},
+  INFP:{mob:"Ocelot",tagline:"The Wary Observer",behavioral:"Near-passive · Extremely solitary · Low predictability · Moderate intelligence · Moderate environmental sensitivity",explanation:"You are the Ocelot — impossible to approach directly. It flees from anyone who moves too fast or is too forceful. Taming requires patient, slow, indirect approach — and once trust is earned, the Ocelot becomes genuinely loyal and affectionate. This is Fi-Ne precisely: an intensely private interior value system that imagines rich possible futures but simply cannot be commanded into relationship. The relationship must be earned. And in one telling detail: the Ocelot naturally repels Creepers. Fi-types' authentic individuality is structurally disruptive to the conformist, suppressed-emotional-energy dynamics Creepers represent."},
+  ENFJ:{mob:"Iron Golem",tagline:"The Dutiful Guardian",behavioral:"Protective aggression · High social (community-bound) · High predictability · Moderate intelligence · Moderate environmental sensitivity",explanation:"You are the Iron Golem — created and sustained by purpose. It patrols the village without being asked. It walks toward threats without hesitation, absorbing punishment so the community doesn't have to. It throws attackers skyward — a dramatic, protective gesture. And it brings flowers to villagers: Fe expressing warmth spontaneously, without being prompted. The Iron Golem has no self-interest; it is entirely oriented toward those in its care. Your inferior Ti shows in the Golem's characteristic limitation: it cannot reason about exceptions — offend it once, and it cannot update its model. Fe loyalty, once broken, doesn't always recalculate."},
+  ENFP:{mob:"Parrot",tagline:"The Social Mirror",behavioral:"Non-aggressive · Extreme sociality · High predictability in social behavior · Moderate intelligence · Moderate environmental sensitivity",explanation:"You are the Parrot — joyful, magnetic, and present. The Parrot mimics nearby mob sounds, sampling the environment for new patterns (Ne in action). It follows players with unself-conscious enthusiasm. It cannot resist dancing when music plays — an immediate, unfiltered response to sensory-emotional input. The Parrot exists to be delightful. But the Parrot's famous tragic flaw — it will eat a cookie and die — is the inferior Si laid bare: it cannot integrate the lesson of what is harmful to it. The excitement of the present moment overrides accumulated experiential wisdom. ENFPs are the Parrot: vivid, connective, genuinely charming, and occasionally undone by their own enthusiasm."},
+  ISTJ:{mob:"Sheep",tagline:"The Comfortable Conformist",behavioral:"Non-aggressive · High sociality (herd) · Very high predictability · Low intelligence · Low environmental sensitivity",explanation:"You are the Sheep — not as an insult, but as a precise behavioral archetype. Your dominant Si means you operate by established patterns, proven methods, and reliable rhythms. Sheep graze in the same areas, follow each other instinctively, and provide consistent, renewable resources — Si's gift of dependable sustenance. They don't explore; they don't deviate. In one beautiful mechanic: if you dye a Sheep, its lambs inherit the color. Tradition passes literally through generations. Si-Te is the most institutionally reliable combination in the function stack — and the Sheep is the world's most institutionally reliable animal."},
+  ISFJ:{mob:"Pig",tagline:"The Guileless Wanderer",behavioral:"Non-aggressive · Moderate sociality · Very high predictability · Low intelligence · Very low environmental sensitivity",explanation:"You are the Pig — and nothing about that is a diminishment. The Pig is the most dependably gentle creature in Minecraft. It wanders peacefully, eats what you offer, follows where you lead with the right incentive — Si responding to clear, established structure — and provides for the community in the long run. Si-Fe: comfort in the familiar, service to others' needs, no appetite for abstract possibility. ISFJs are the world's Pigs: unpretentious, reliable, quietly essential, and profoundly underappreciated by any framework that values novelty over loyalty."},
+  ESTJ:{mob:"Guardian",tagline:"The Territorial Enforcer",behavioral:"High systematic aggression · Moderate sociality (patrol unit) · Very high predictability · Moderate intelligence · High environmental sensitivity",explanation:"You are the Guardian — patrolling a purpose-built institution with mechanical precision. The Ocean Monument is an ESTJ's natural environment: structured, functional, architecturally deliberate. The Guardian's laser requires sustained line-of-sight to fire — Te-Si in action: methodical targeting, no impulsive action, rules-based engagement. It swims in formation with others. It defends the institution not because it feels for it but because defending the institution is its function. Most revealingly: the Elder Guardian inflicts Mining Fatigue on intruders, making it structurally harder to dismantle what it protects. Te-Si territoriality at its peak."},
+  ESFJ:{mob:"Wolf",tagline:"The Pack Loyalist",behavioral:"Protective aggression (loyalty-triggered) · Very high sociality · Moderate predictability · Moderate intelligence · High environmental sensitivity",explanation:"You are the Wolf — and the Wolf's behavioral arc is the ESFJ story told in mechanics. Wild, the Wolf is neutral: wary, pack-oriented, neither warm nor hostile. Tamed — once the relationship is established — it becomes completely devoted. It follows, defends, and its tail visibly drops when it's unhappy (Fe emotional transparency made literal). Tamed Wolves attack anything that attacks their person without hesitation. And they remember — Si encodes the harm; the grudge is real and lasting. The inferior Ti shows in one characteristic failure: the Wolf cannot make nuanced judgments about proportionality. Perceived threat to what it loves triggers total response."},
+  ISTP:{mob:"Spider",tagline:"The Opportunist",behavioral:"Conditional aggression · Low sociality · Moderate predictability · Moderate intelligence · High environmental sensitivity",explanation:"You are the Spider — a masterclass in adaptive physicality and conditional logic. The Spider can climb walls (Se mastery of the physical environment), changes behavior based on light level (Ti recalibrating its operational model based on sensory input), and can sense you through walls at range. It is neutral in daylight, hostile in darkness — not aggressive by default, but fully capable of decisive action when its conditions are met. The Spider doesn't hate you; it operates according to an internal framework of when-to-act. ISTPs don't look for conflict. They just have very precise conditions under which they engage — and when those conditions are met, they are exceptionally effective."},
+  ISFP:{mob:"Horse",tagline:"The Capable Companion",behavioral:"Non-aggressive · Moderate sociality · High predictability (once tamed) · Moderate intelligence · Moderate environmental sensitivity",explanation:"You are the Horse — beautiful, capable, and impossible to force into relationship. Taming a Horse requires being thrown off repeatedly: the Horse must choose to accept you. No command works. No shortcut exists. Once trust is given, what emerges is a seamless physical partnership — the rider guides, the Horse executes with fluid, responsive grace. This is Fi-Se: an intensely private interior value system expressed through mastery of the immediate physical world. The Horse serves no institution and obeys no system. It partners with individuals on its own terms, on its own timeline."},
+  ESTP:{mob:"Zombie Pigman",tagline:"The Collective Retaliator",behavioral:"Herd-reactive aggression · High sociality · Low predictability (reactive) · Low intelligence · Low environmental sensitivity",explanation:"You are the Zombie Pigman — which sounds like an insult until you understand what it actually means behaviorally. The Zombie Pigman wanders doing nothing until provoked. Then the entire group retaliates immediately: Se triggers instant physical mobilization, Ti maintains cold internal logic (you hit one, you're a threat to all), Fe-herd means everyone joins. The response is fast, physical, and total. There's no long-term grudge — inferior Ni means they forget if the threat disappears. ESTPs are not cruel — they are immediate. They read the physical situation at speed and act in it completely."},
+  ESFP:{mob:"Llama",tagline:"The Stubborn Caravan",behavioral:"Reactive aggression (dramatic) · High sociality · Moderate predictability · Low intelligence · Moderate environmental sensitivity",explanation:"You are the Llama — social, vivid, dramatically expressive, and fundamentally your own entity. The Llama travels in caravans: movement, presence, momentum, collective energy — Se sociality in motion. When provoked, it spits. Immediately and personally. Not dangerously, but emphatically. No mob has a more characterful retaliation mechanic. It will not be ridden without taming — and even then, taming grants only tolerance, not submission. The Llama is Fi-Se: intensely present in the moment, oriented by personal values that won't bend, moving through the world with a group but never fully controlled by it."}
+};
+
+// ═══════════════════════════════════════════════════════════
+//  QUIZ STATE
+// ═══════════════════════════════════════════════════════════
+let currentQ = 0;
+let answers  = {};
+let scores   = {Ti:0,Te:0,Fi:0,Fe:0,Ni:0,Ne:0,Si:0,Se:0};
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-//  LANDING → QUIZ
-// ═══════════════════════════════════════════════════════════════════════
-function startQuiz() {
-  currentQ = 0;
-  answers  = {};
-  scores   = { Ti:0, Te:0, Fi:0, Fe:0, Ni:0, Ne:0, Si:0, Se:0 };
-
-  // Build progress notches
-  const notches = document.getElementById('progress-notches');
-  notches.innerHTML = '';
-  QUESTIONS.forEach(() => {
-    const d = document.createElement('div');
-    d.className = 'progress-notch';
-    notches.appendChild(d);
-  });
-
-  renderQuestion();
-  showScreen('quiz');
+function startQuiz(){
+  currentQ=0;answers={};scores={Ti:0,Te:0,Fi:0,Fe:0,Ni:0,Ne:0,Si:0,Se:0};
+  renderQuestion();showScreen('quiz');
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-//  RENDER QUESTION
-// ═══════════════════════════════════════════════════════════════════════
-function renderQuestion() {
-  const q = QUESTIONS[currentQ];
-  const total = QUESTIONS.length;
+function renderQuestion(){
+  const q=QUESTIONS[currentQ];
+  const total=QUESTIONS.length;
+  document.getElementById('q-number').textContent=`QUESTION ${String(currentQ+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
+  document.getElementById('q-text').textContent=q.text;
+  const pct=Math.round((currentQ/total)*100);
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('progress-text').textContent=`Question ${currentQ+1} of ${total}`;
+  document.getElementById('progress-pct').textContent=pct+'%';
 
-  // Header
-  document.getElementById('q-number').textContent =
-    `QUESTION ${String(currentQ+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
-  document.getElementById('q-text').textContent = q.text;
-
-  // Progress
-  const pct = Math.round((currentQ / total) * 100);
-  document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-text').textContent = `Question ${currentQ+1} of ${total}`;
-  document.getElementById('progress-pct').textContent  = pct + '%';
-
-  // Options
-  const container = document.getElementById('q-options');
-  container.innerHTML = '';
-  const keys = ['A','B','C','D'];
-  q.options.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'option-btn' + (answers[currentQ] === opt.fn ? ' selected' : '');
-    btn.innerHTML =
-      `<span class="option-key">${keys[i]}</span>` +
-      `<span class="option-text">${opt.text}</span>`;
-    btn.onclick = () => selectOption(opt.fn, btn);
+  const container=document.getElementById('q-options');
+  container.innerHTML='';
+  ['A','B','C','D'].forEach((key,i)=>{
+    const opt=q.options[i];
+    const btn=document.createElement('button');
+    btn.className='option-btn'+(answers[currentQ]===opt.fn?' selected':'');
+    btn.innerHTML=`<span class="option-key">${key}</span><span>${opt.text}</span>`;
+    btn.onclick=()=>selectOption(opt.fn,btn);
     container.appendChild(btn);
   });
 
-  // Nav buttons
-  document.getElementById('btn-prev').style.display = currentQ > 0 ? 'inline-block' : 'none';
-  const nextBtn = document.getElementById('btn-next');
-  nextBtn.textContent = currentQ === total - 1 ? 'FINISH ✓' : 'NEXT ▶';
+  document.getElementById('btn-prev').style.display=currentQ>0?'inline-block':'none';
+  document.getElementById('btn-next').textContent=currentQ===total-1?'FINISH ✓':'NEXT ▶';
 }
 
-function selectOption(fn, btn) {
-  // Clear previous selection
-  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+function selectOption(fn,btn){
+  document.querySelectorAll('.option-btn').forEach(b=>b.classList.remove('selected'));
   btn.classList.add('selected');
-  answers[currentQ] = fn;
+  answers[currentQ]=fn;
 }
 
-function nextQuestion() {
-  if (!answers[currentQ]) {
-    // Flash the options container
-    const card = document.querySelector('.question-card');
-    card.style.borderColor = 'var(--redstone)';
-    setTimeout(() => { card.style.borderColor = ''; }, 500);
+function nextQuestion(){
+  if(!answers[currentQ]){
+    const card=document.getElementById('question-card');
+    card.style.borderColor='var(--redstone)';
+    setTimeout(()=>{card.style.borderColor=''},600);
     return;
   }
-
-  if (currentQ < QUESTIONS.length - 1) {
-    currentQ++;
-    renderQuestion();
-  } else {
-    finishQuiz();
-  }
+  if(currentQ<QUESTIONS.length-1){currentQ++;renderQuestion();}
+  else{finishQuiz();}
 }
 
-function prevQuestion() {
-  if (currentQ > 0) {
-    currentQ--;
-    renderQuestion();
-  }
-}
+function prevQuestion(){if(currentQ>0){currentQ--;renderQuestion();}}
 
-// ═══════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 //  SCORING
-// ═══════════════════════════════════════════════════════════════════════
-function computeScores() {
-  scores = { Ti:0, Te:0, Fi:0, Fe:0, Ni:0, Ne:0, Si:0, Se:0 };
-  Object.values(answers).forEach(fn => {
-    if (scores.hasOwnProperty(fn)) scores[fn] += 2;
-  });
+// ═══════════════════════════════════════════════════════════
+function computeScores(){
+  scores={Ti:0,Te:0,Fi:0,Fe:0,Ni:0,Ne:0,Si:0,Se:0};
+  Object.values(answers).forEach(fn=>{if(fn in scores) scores[fn]+=2;});
 }
 
-function inferMBTI() {
+function inferMBTI(){
   computeScores();
+  const sorted=Object.entries(scores).sort((a,b)=>b[1]-a[1]).map(f=>f[0]);
 
-  // Step 1: For each function dichotomy, pick the winner
-  const T = scores.Ti >= scores.Te ? 'Ti' : 'Te';
-  const F = scores.Fi >= scores.Fe ? 'Fi' : 'Fe';
-  const N = scores.Ni >= scores.Ne ? 'Ni' : 'Ne';
-  const S = scores.Si >= scores.Se ? 'Si' : 'Se';
-
-  // Step 2: Which perception/judging axis is strongest?
-  // Find the single highest-scoring function
-  const fns = Object.entries(scores).sort((a,b) => b[1]-a[1]);
-  const topTwo = fns.slice(0,4).map(f => f[0]);
-
-  // Determine cognitive stack from top functions
-  // Map combinations to MBTI types
-  const typeMap = {
-    'Ti-Ni': 'INTJ', 'Ni-Ti': 'INTJ',
-    'Ti-Ne': 'INTP', 'Ne-Ti': 'INTP',
-    'Te-Ni': 'ENTJ', 'Ni-Te': 'ENTJ',
-    'Te-Ne': 'ENTP', 'Ne-Te': 'ENTP',
-    'Ni-Fe': 'INFJ', 'Fe-Ni': 'INFJ',
-    'Fi-Ne': 'INFP', 'Ne-Fi': 'INFP',
-    'Fe-Ni': 'ENFJ', 'Ni-Fe': 'ENFJ',
-    'Ne-Fi': 'ENFP', 'Fi-Ne': 'ENFP',
-    'Si-Te': 'ISTJ', 'Te-Si': 'ISTJ',
-    'Si-Fe': 'ISFJ', 'Fe-Si': 'ISFJ',
-    'Te-Si': 'ESTJ', 'Si-Te': 'ESTJ',
-    'Fe-Si': 'ESFJ', 'Si-Fe': 'ESFJ',
-    'Ti-Se': 'ISTP', 'Se-Ti': 'ISTP',
-    'Fi-Se': 'ISFP', 'Se-Fi': 'ISFP',
-    'Se-Ti': 'ESTP', 'Ti-Se': 'ESTP',
-    'Se-Fi': 'ESFP', 'Fi-Se': 'ESFP',
+  const typeMap={
+    'Ti-Ni':'INTJ','Ni-Ti':'INTJ','Ti-Ne':'INTP','Ne-Ti':'INTP',
+    'Te-Ni':'ENTJ','Ni-Te':'ENTJ','Ne-Te':'ENTP','Te-Ne':'ENTP',
+    'Ni-Fe':'INFJ','Fe-Ni':'INFJ','Fi-Ne':'INFP','Ne-Fi':'INFP',
+    'Fe-Ni':'ENFJ','Ni-Fe':'ENFJ','Ne-Fi':'ENFP','Fi-Ne':'ENFP',
+    'Si-Te':'ISTJ','Te-Si':'ISTJ','Si-Fe':'ISFJ','Fe-Si':'ISFJ',
+    'Te-Si':'ESTJ','Si-Te':'ESTJ','Fe-Si':'ESFJ','Si-Fe':'ESFJ',
+    'Ti-Se':'ISTP','Se-Ti':'ISTP','Fi-Se':'ISFP','Se-Fi':'ISFP',
+    'Se-Ti':'ESTP','Ti-Se':'ESTP','Se-Fi':'ESFP','Fi-Se':'ESFP',
   };
 
-  // Build all dominant function pair strings and try to match
-  for (let i = 0; i < topTwo.length; i++) {
-    for (let j = 0; j < topTwo.length; j++) {
-      if (i === j) continue;
-      const key = `${topTwo[i]}-${topTwo[j]}`;
-      if (typeMap[key]) return typeMap[key];
+  for(let i=0;i<sorted.length;i++){
+    for(let j=0;j<sorted.length;j++){
+      if(i===j) continue;
+      const k=`${sorted[i]}-${sorted[j]}`;
+      if(typeMap[k]) return typeMap[k];
     }
   }
 
-  // Fallback: use letter-by-letter comparison
-  const E_I = (scores.Ne + scores.Se + scores.Te + scores.Fe) >=
-              (scores.Ni + scores.Si + scores.Ti + scores.Fi) ? 'E' : 'I';
-  const N_S = (scores.Ni + scores.Ne) >= (scores.Si + scores.Se) ? 'N' : 'S';
-  const T_F = (scores.Ti + scores.Te) >= (scores.Fi + scores.Fe) ? 'T' : 'F';
-  const J_P = (scores.Ni + scores.Ne >= scores.Si + scores.Se)
-    ? ((T_F === 'T') ? ((E_I === 'E' ? scores.Te >= scores.Ti : scores.Ti >= scores.Te) ? 'J' : 'P')
-                     : ((E_I === 'E' ? scores.Fe >= scores.Fi : scores.Fi >= scores.Fe) ? 'J' : 'P'))
-    : 'P';
-
-  return E_I + N_S + T_F + J_P;
+  const EI=(scores.Ne+scores.Se+scores.Te+scores.Fe)>=(scores.Ni+scores.Si+scores.Ti+scores.Fi)?'E':'I';
+  const NS=(scores.Ni+scores.Ne)>=(scores.Si+scores.Se)?'N':'S';
+  const TF=(scores.Ti+scores.Te)>=(scores.Fi+scores.Fe)?'T':'F';
+  const JP=(scores.Ni+scores.Si)>=(scores.Ne+scores.Se)?'J':'P';
+  return EI+NS+TF+JP;
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-//  FINISH QUIZ
-// ═══════════════════════════════════════════════════════════════════════
-function finishQuiz() {
-  showScreen('loading');
-
-  setTimeout(() => {
-    const mbtiType = inferMBTI();
-    displayResults(mbtiType);
-    showScreen('results');
-  }, 2400);
+function finishQuiz(){
+  drawLoading();showScreen('loading');
+  setTimeout(()=>{const t=inferMBTI();displayResults(t);showScreen('results');},2400);
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-//  DISPLAY RESULTS
-// ═══════════════════════════════════════════════════════════════════════
-function displayResults(mbtiType) {
-  const data = MOB_DATA[mbtiType] || MOB_DATA['INTP'];
+function displayResults(type){
+  const data=MOB_DATA[type]||MOB_DATA['INTP'];
+  document.getElementById('result-mob-name').textContent=data.mob.toUpperCase();
+  document.getElementById('result-mbti').textContent=type;
+  document.getElementById('result-tagline').textContent=`"${data.tagline}"`;
+  document.getElementById('result-behavioral').textContent=data.behavioral;
+  document.getElementById('result-explanation').textContent=data.explanation;
 
-  document.getElementById('result-emoji').textContent = data.emoji;
-  document.getElementById('result-mob-name').textContent = data.mob.toUpperCase();
-  document.getElementById('result-mbti').textContent = mbtiType;
-  document.getElementById('result-tagline').textContent = `"${data.tagline}"`;
-  document.getElementById('result-behavioral').textContent = data.behavioral;
-  document.getElementById('result-explanation').textContent = data.explanation;
+  // Draw portrait at 8× scale = 128×128px
+  const canvas=document.getElementById('result-canvas');
+  drawMob(canvas,type,8);
 
-  // Cognitive function bars
-  const funcContainer = document.getElementById('func-scores');
-  funcContainer.innerHTML = '';
-  const maxScore = Math.max(...Object.values(scores), 1);
+  // Function bars
+  const container=document.getElementById('func-scores');
+  container.innerHTML='';
+  const maxScore=Math.max(...Object.values(scores),1);
+  Object.entries(scores).sort((a,b)=>b[1]-a[1]).forEach(([fn,score])=>{
+    const pct=Math.round((score/maxScore)*100);
+    const row=document.createElement('div');
+    row.className='func-row';
+    row.innerHTML=`<span class="func-label">${fn}</span><div class="func-bar-track"><div class="func-bar-fill" style="width:${pct}%"></div></div><span class="func-score">${score}</span>`;
+    container.appendChild(row);
+  });
 
-  Object.entries(scores)
-    .sort((a,b) => b[1]-a[1])
-    .forEach(([fn, score]) => {
-      const pct = Math.round((score / maxScore) * 100);
-      const row = document.createElement('div');
-      row.className = 'func-row';
-      row.innerHTML = `
-        <span class="func-label">${fn}</span>
-        <div class="func-bar-track">
-          <div class="func-bar-fill" style="width:${pct}%"></div>
-        </div>
-        <span class="func-score">${score}</span>
-      `;
-      funcContainer.appendChild(row);
+  try{localStorage.setItem('mc_mbti',JSON.stringify({type,mob:data.mob,scores,date:Date.now()}));}catch(e){}
+}
+
+function retakeQuiz(){startQuiz();}
+
+function saveResult(){
+  try{
+    const r=JSON.parse(localStorage.getItem('mc_mbti')||'{}');
+    const text=`I'm a ${r.mob} (${r.type}) on the Minecraft Cognitive Archetype Quiz!`;
+    navigator.clipboard&&navigator.clipboard.writeText(text).then(()=>{
+      document.getElementById('save-status').textContent='✓ Copied to clipboard!';
+      setTimeout(()=>{document.getElementById('save-status').textContent=''},3000);
     });
-
-  // Save to localStorage
-  try {
-    localStorage.setItem('minecraft_mbti_result', JSON.stringify({
-      mbti: mbtiType,
-      mob: data.mob,
-      emoji: data.emoji,
-      scores: scores,
-      date: new Date().toISOString()
-    }));
-  } catch(e) {}
+  }catch(e){}
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-//  RETAKE & SAVE
-// ═══════════════════════════════════════════════════════════════════════
-function retakeQuiz() {
-  startQuiz();
-}
-
-function saveResult() {
-  try {
-    const saved = JSON.parse(localStorage.getItem('minecraft_mbti_result') || '{}');
-    const text = `My Minecraft Mob: ${saved.emoji} ${saved.mob} (${saved.mbti}) — Cognitive Archetype Quiz`;
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(() => {
-        document.getElementById('save-status').textContent = '✓ Copied to clipboard! Share your result.';
-        setTimeout(() => { document.getElementById('save-status').textContent = ''; }, 3000);
-      });
-    } else {
-      document.getElementById('save-status').textContent = `${saved.emoji} ${saved.mob} (${saved.mbti}) — saved locally`;
+// ═══════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════
+window.addEventListener('load',()=>{
+  buildParade();
+  try{
+    const r=JSON.parse(localStorage.getItem('mc_mbti')||'{}');
+    if(r.type&&r.mob){
+      const daysAgo=Math.floor((Date.now()-r.date)/86400000);
+      const p=document.createElement('p');
+      p.style.cssText='color:var(--emerald);margin-top:10px;font-size:17px';
+      p.textContent=`↩ Previous result: ${r.mob} (${r.type}) — ${daysAgo===0?'today':daysAgo+' days ago'}`;
+      document.querySelector('.intro-card').appendChild(p);
     }
-  } catch(e) {
-    document.getElementById('save-status').textContent = 'Result saved locally.';
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════════════
-//  CHECK FOR SAVED RESULT ON LOAD
-// ═══════════════════════════════════════════════════════════════════════
-window.addEventListener('load', () => {
-  try {
-    const saved = localStorage.getItem('minecraft_mbti_result');
-    if (saved) {
-      const r = JSON.parse(saved);
-      const d = new Date(r.date);
-      const daysAgo = Math.floor((Date.now() - d.getTime()) / 86400000);
-      if (daysAgo < 30) {
-        const intro = document.querySelector('.intro-card');
-        const tag = document.createElement('p');
-        tag.style.cssText = 'color:var(--emerald); margin-top:12px; font-size:17px;';
-        tag.textContent = `↩ Previous result: ${r.emoji} ${r.mob} (${r.mbti}) — ${daysAgo === 0 ? 'today' : daysAgo + ' days ago'}`;
-        intro.appendChild(tag);
-      }
-    }
-  } catch(e) {}
+  }catch(e){}
 });
 </script>
 </body>
